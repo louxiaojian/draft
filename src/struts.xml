@@ -33,5 +33,8 @@
 			<result name="editTheme">/data/editTheme.jsp</result>
 			<result name="editCycle">/data/editCycle.jsp</result>
 		</action>
+		<action name="photo_*" method="{1}" class="photoAction">
+			<result name="editPhoto">/data/editPhoto.jsp</result>
+		</action>
 	</package>
 </struts>

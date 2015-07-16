@@ -85,6 +85,7 @@
 				<value>userDAO</value>
 				<value>lockerDAO</value>
 				<value>cycleDao</value>
+				<value>photoDao</value>
 			</list>
 		</property>
 		<property name="interceptorNames">

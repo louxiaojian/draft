@@ -54,16 +54,16 @@ public class CycleDaoImpl extends ParentDAOImpl implements CycleDao {
 			}
 			if (null != filterMap.get("starttime")
 					&& !"".equals(filterMap.get("starttime"))) {
-				queryCountString.append("and starttime > '"
+				queryCountString.append("and starttime >= '"
 						+ filterMap.get("endtime") + "' ");
-				queryString.append("and starttime > '"
+				queryString.append("and starttime >= '"
 						+ filterMap.get("endtime") + "' ");
 			}
 			if (null != filterMap.get("endtime")
 					&& !"".equals(filterMap.get("endtime"))) {
-				queryCountString.append("and endtime < '"
+				queryCountString.append("and endtime <= '"
 						+ filterMap.get("endtime") + "' ");
-				queryString.append("and endtime < '"
+				queryString.append("and endtime <= '"
 						+ filterMap.get("endtime") + "' ");
 			}
 			if (null != filterMap.get("status")

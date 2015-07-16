@@ -39,5 +39,21 @@
 			<ref bean="cycleService" />
 		</property>
 	</bean>
+	<bean id="photoDao" class="cn.zmdx.locker.dao.impl.PhotoDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<constructor-arg>
+			<ref bean="hibernateTemplate" />
+		</constructor-arg>
+	</bean>
+	<bean id="photoService" class="cn.zmdx.locker.service.impl.PhotoServiceImpl">
+		<constructor-arg>
+			<ref bean="photoDao" />
+		</constructor-arg>
+	</bean>
+	<bean id="photoAction" class="cn.zmdx.locker.actions.PhotoAction" scope="prototype">
+		<property name="photoService">
+			<ref bean="photoService" />
+		</property>
+	</bean>
 
 </beans>
