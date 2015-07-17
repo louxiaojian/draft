@@ -14,6 +14,7 @@ public class Photo {
 	private int tread;//踩
 	private Date auditingDate;//审核时间
 	private int userid;
+	private int report;
 	
 	public int getId() {
 		return id;
@@ -74,6 +75,12 @@ public class Photo {
 	}
 	public void setUserid(int userid) {
 		this.userid = userid;
+	}
+	public int getReport() {
+		return report;
+	}
+	public void setReport(int report) {
+		this.report = report;
 	}
 	
 }

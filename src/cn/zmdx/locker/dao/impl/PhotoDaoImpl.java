@@ -37,7 +37,7 @@ public class PhotoDaoImpl extends ParentDAOImpl implements PhotoDao {
 	@Override
 	public PageResult queryPhotos(Map<String, String> filterMap) {
 		StringBuffer sqlCount=new StringBuffer("select count(*) from (select p.id from photo p left join users u on p.userid=u.id left join cycle_photo cp on p.id =cp.photo_id left join cycle c on cp.cycle_id=c.id left join themes th on th.id =c.theme_id where 1=1 ");
-		StringBuffer sql=new StringBuffer("select p.id,p.photoUrl,p.uploadDate,p.descs,p.type,p.status,p.praise,p.tread,p.auditingDate,p.userid,u.loginname,c.cycle_no,th.name from photo p " +
+		StringBuffer sql=new StringBuffer("select p.id,p.photoUrl,p.uploadDate,p.descs,p.type,p.status,p.praise,p.tread,p.auditingDate,p.userid,p.report,u.loginname,c.cycle_no,th.name from photo p " +
 				"left join users u on p.userid=u.id left join cycle_photo cp on p.id =cp.photo_id left join cycle c on cp.cycle_id=c.id left join themes th on th.id =c.theme_id where 1=1 ");
 		if(filterMap!=null&&!filterMap.isEmpty()){
 			if(!"".equals(filterMap.get("type"))&&filterMap.get("type")!=null){

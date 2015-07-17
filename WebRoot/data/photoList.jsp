@@ -49,7 +49,7 @@ text-overflow : ellipsis;
 			height: 500,
 			autoheight: true,
 			width: widthScroll/1.5, 
-			colNames:['ID','分类','上传时间','审核时间','审核状态','url','图片','赞','踩','用户id','上传用户','所属选秀周期','所属主题'],
+			colNames:['ID','分类','上传时间','审核时间','审核状态','url','图片','赞','踩','举报','用户id','上传用户','所属选秀周期','所属主题'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
 					{name:'type',index:'type', width:80,align: 'center'}, 
@@ -77,6 +77,7 @@ text-overflow : ellipsis;
 			  			},
 				  	{name:'praise',index:'praise', width:50,align: 'center'},
 			  		{name:'tread',index:'tread', width:50,align: 'center'},
+			  		{name:'report',index:'report', width:50,align: 'center'},
 	  				{name:'userid',index:'userid', width:150,align: 'center',hidden:true},
 	  				{name:'userName',index:'userName', width:80,align: 'center',hidden:false},
 	  				{name:'cycle_no',index:'cycle_no', width:80,align: 'center',hidden:false},
