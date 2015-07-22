@@ -129,7 +129,7 @@ body {
 	<div id="leftside">
 		<ul id="menu">
 			<li class="li" style="cursor: pointer" id="id0"  onclick="li(id)"><p class="innerHTML">图片管理</p>
-			<li class="li" style="cursor: pointer" id="id1"  onclick="li(id)"><p class="innerHTML">数据管理</p>
+<%--			<li class="li" style="cursor: pointer" id="id1"  onclick="li(id)"><p class="innerHTML">数据管理</p>--%>
 			<li class="li" style="cursor: pointer" id="id2"  onclick="li(id)"><p class="innerHTML">主题管理</p>
 			<li class="li" style="cursor: pointer" id="id3"  onclick="li(id)"><p class="innerHTML">周期管理</p>
 			</li>

@@ -115,7 +115,7 @@ public class PhotoAction extends ActionSupport {
 			String[] viewArray = { "ID", "photoUrl", "uploadDate", "descs",
 					"type:[{'0':'个人','1':'秀场'}]",
 					"status:[{'0':'未审核','1':'审核通过','2':'未通过'}]", "praise",
-					"tread", "auditingDate", "userid","report", "userName","cycle_no","theme_name" };
+					"tread", "auditingDate", "userid","report","view", "userName","cycle_no","theme_name" };
 			if (type != null && !"".equals(type)) {
 				filterMap.put("type", type);
 			}
