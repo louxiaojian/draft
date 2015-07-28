@@ -1,5 +1,7 @@
 package cn.zmdx.locker.entity;
 
+import java.util.Date;
+
 public class User {
 	private int id;
 	private String username;//昵称
@@ -13,6 +15,7 @@ public class User {
 	private String headPortrait;//头像
 	private int age;//年龄
 	private String introduction;//个人介绍
+	private Date registrationDate;//注册时间
 	
 	public int getId() {
 		return id;
@@ -85,6 +88,12 @@ public class User {
 	}
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
+	}
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 	
 }

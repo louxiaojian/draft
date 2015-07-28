@@ -14,8 +14,9 @@ public class Photo {
 	private int tread;//踩
 	private Date auditingDate;//审核时间
 	private int userid;
-	private int report;
-	private int view;
+	private int report;//举报次数
+	private int view;//浏览量
+	private int votes;//选秀得票数
 	
 	public int getId() {
 		return id;
@@ -88,6 +89,12 @@ public class Photo {
 	}
 	public void setView(int view) {
 		this.view = view;
+	}
+	public int getVotes() {
+		return votes;
+	}
+	public void setVotes(int votes) {
+		this.votes = votes;
 	}
 	
 }

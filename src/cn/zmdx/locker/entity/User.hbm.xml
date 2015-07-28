@@ -16,6 +16,7 @@
 		<property name="headPortrait" column="headPortrait"/>
 		<property name="age" column="age"/>
 		<property name="introduction" column="introduction"/>
+		<property name="registrationDate" column="registration_date"/>
 	</class>
 	
 </hibernate-mapping>
