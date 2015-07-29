@@ -36,6 +36,10 @@ body {
 }
 </style>
 <script type="text/javascript">
+	var opener=window.opener;
+	if(opener!=null){
+		
+	}
   	$(document).ready(function(){
   		var optionsSubmit = {
  	    url:'<%=request.getContextPath()%>/photo_auditing.action',
@@ -53,6 +57,10 @@ body {
 	        return false;
 	    });
 	 });
+    function closeMeAndReloadParent()
+    {
+	    alert(1)
+    }
 </script>
 
 <style type="text/css">

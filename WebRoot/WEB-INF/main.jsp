@@ -118,7 +118,7 @@ body {
 	</div>
 	<div id="rightside">
 		<div id="contentside">
-			<iframe scrolling="no" src="<%=request.getContextPath()%>/data/dataListmain.jsp" width="100%" height="90%" frameborder="0"
+			<iframe scrolling="no" src="<%=request.getContextPath()%>/data/photoList.jsp" width="100%" height="90%" frameborder="0"
 				id="mainframe" onLoad="iFrameHeight()"> </iframe>
 		</div>
 		<div id="contentdetail" style="display: none;"></div>

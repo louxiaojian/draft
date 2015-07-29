@@ -7,50 +7,45 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 	
-	<bean id="lockerDAO" class="cn.zmdx.locker.dao.impl.LockerDAOImpl">
+	<bean id="lockerDAO" class="cn.zmdx.draft.dao.impl.LockerDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<constructor-arg>
 			<ref bean="hibernateTemplate" />
 		</constructor-arg>
 	</bean>
-	<bean id="lockerService" class="cn.zmdx.locker.service.impl.LockerServiceImpl">
+	<bean id="lockerService" class="cn.zmdx.draft.service.impl.LockerServiceImpl">
 		<constructor-arg>
 			<ref bean="lockerDAO" />
 		</constructor-arg>
 	</bean>
-	<bean id="lockerAction" class="cn.zmdx.locker.actions.LockerAction" scope="prototype">
-		<property name="lockerService">
-			<ref bean="lockerService" />
-		</property>
-	</bean>
-	<bean id="cycleDao" class="cn.zmdx.locker.dao.impl.CycleDaoImpl">
+	<bean id="cycleDao" class="cn.zmdx.draft.dao.impl.CycleDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<constructor-arg>
 			<ref bean="hibernateTemplate" />
 		</constructor-arg>
 	</bean>
-	<bean id="cycleService" class="cn.zmdx.locker.service.impl.CycleServiceImpl">
+	<bean id="cycleService" class="cn.zmdx.draft.service.impl.CycleServiceImpl">
 		<constructor-arg>
 			<ref bean="cycleDao" />
 		</constructor-arg>
 	</bean>
-	<bean id="cycleAction" class="cn.zmdx.locker.actions.CycleAction" scope="prototype">
+	<bean id="cycleAction" class="cn.zmdx.draft.actions.CycleAction" scope="prototype">
 		<property name="cycleService">
 			<ref bean="cycleService" />
 		</property>
 	</bean>
-	<bean id="photoDao" class="cn.zmdx.locker.dao.impl.PhotoDaoImpl">
+	<bean id="photoDao" class="cn.zmdx.draft.dao.impl.PhotoDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<constructor-arg>
 			<ref bean="hibernateTemplate" />
 		</constructor-arg>
 	</bean>
-	<bean id="photoService" class="cn.zmdx.locker.service.impl.PhotoServiceImpl">
+	<bean id="photoService" class="cn.zmdx.draft.service.impl.PhotoServiceImpl">
 		<constructor-arg>
 			<ref bean="photoDao" />
 		</constructor-arg>
 	</bean>
-	<bean id="photoAction" class="cn.zmdx.locker.actions.PhotoAction" scope="prototype">
+	<bean id="photoAction" class="cn.zmdx.draft.actions.PhotoAction" scope="prototype">
 		<property name="photoService">
 			<ref bean="photoService" />
 		</property>
