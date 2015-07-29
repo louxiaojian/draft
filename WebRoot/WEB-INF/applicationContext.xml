@@ -27,7 +27,7 @@
 		</property>
 		<property name="mappingDirectoryLocations">
 			<list>
-				<value>classpath:cn/zmdx/locker/entity</value>
+				<value>classpath:cn/zmdx/draft/entity</value>
 			</list>
 		</property>
 	</bean>

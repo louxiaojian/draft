@@ -49,7 +49,7 @@ text-overflow : ellipsis;
 			height: 500,
 			autoheight: true,
 			width: widthScroll/1.5, 
-			colNames:['ID','分类','上传时间','审核时间','审核状态','url','图片','赞','踩','浏览量','举报','用户id','上传用户','所属选秀周期','所属主题'],
+			colNames:['ID','分类','上传时间','审核时间','审核状态','赞','踩','浏览量','举报','用户id','上传用户','所属选秀周期','所属主题'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
 					{name:'type',index:'type', width:80,align: 'center'}, 
@@ -65,16 +65,6 @@ text-overflow : ellipsis;
 					  			return "<p style=\"color: red;font-size: 16px;\">未通过</p>" ;
 							}
 		  				}},
-					{name:'photoUrl',index:'photoUrl', width:150,align: 'center',hidden:true}, 
-					{name:'url',index:'url', width:150, align:'center',
-							formatter: function(cellvalue, options, rowObject) {
-								if(rowObject.photoUrl.indexOf(".")!=-1){
-						  			return "<img src='"+rowObject.photoUrl+"' style='width:100px;'" ;
-								}else{
-						  			return "<img src='' style='width:100px;' />" ;
-								}
-			  				}
-			  			},
 				  	{name:'praise',index:'praise', width:50,align: 'center'},
 			  		{name:'tread',index:'tread', width:50,align: 'center'},
 			  		{name:'view',index:'view', width:50,align: 'center'},
@@ -221,12 +211,13 @@ text-overflow : ellipsis;
 	    	alert("请先选择记录!");  
 			return false;  
 		} 
-		var width = screen.width/2;
-		var height = screen.height/2;
+		var width = screen.width/2.5;
+		var height = screen.height/2.5;
 		var ua = navigator.userAgent.toLowerCase();
         if(ua.match(/chrome\/([\d.]+)/)){
-        	window.open('<%=request.getContextPath()%>/data/auditingPhotos.jsp?ids='+ids+'&temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
-			refreshIt();
+        	//window.open(','newwindow', 'width:'+width+',status:no,height:'+height);
+        	window.open ("<%=request.getContextPath()%>/data/auditingPhotos.jsp?ids="+ids+"&temp="+new Date(), "newwindow", "height="+height+", width="+width+",scrollbars=no");
+			//refreshIt();
         } else{
 	   		window.showModalDialog('<%=request.getContextPath()%>/data/auditingPhotos.jsp?ids='+ids+'&temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
 	   		refreshIt();

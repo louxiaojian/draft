@@ -7,13 +7,13 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<bean id="userDAO" class="cn.zmdx.locker.dao.impl.UserDAOImpl">
+	<bean id="userDAO" class="cn.zmdx.draft.dao.impl.UserDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<constructor-arg>
 			<ref bean="hibernateTemplate" />
 		</constructor-arg>
 	</bean>
-	<bean id="userService" class="cn.zmdx.locker.service.impl.UserServiceImpl">
+	<bean id="userService" class="cn.zmdx.draft.service.impl.UserServiceImpl">
 		<constructor-arg>
 			<ref bean="userDAO" />
 		</constructor-arg>

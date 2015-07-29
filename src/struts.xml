@@ -16,18 +16,15 @@
 			</interceptor-stack>
 		</interceptors>
 		
-		<action name="register" class="cn.zmdx.locker.actions.RegisterAction">
+		<action name="register" class="cn.zmdx.draft.actions.RegisterAction">
 			<result name="success">/WEB-INF/register.jsp
 			</result>
 		</action>
-		<action name="login" class="cn.zmdx.locker.actions.LoginAction">
+		<action name="login" class="cn.zmdx.draft.actions.LoginAction">
 			<result name="success">/WEB-INF/main.jsp
 			</result>
 			<result name="false">/login.jsp
 			</result>
-		</action>
-		<action name= "locker_*"   method= "{1}"  class="lockerAction">
-			<result name="editDataImg">/data/addDataImg.jsp</result>
 		</action>
 		<action name="cycle_*" method="{1}" class="cycleAction">
 			<result name="editTheme">/data/editTheme.jsp</result>
