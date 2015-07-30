@@ -1,6 +1,9 @@
 package cn.zmdx.draft.service.impl;
 
+import java.util.Map;
+
 import cn.zmdx.draft.dao.interfaces.UserDAO;
+import cn.zmdx.draft.entity.PageResult;
 import cn.zmdx.draft.entity.User;
 import cn.zmdx.draft.service.interfaces.UserService;
 import cn.zmdx.draft.util.Encrypter;
@@ -47,6 +50,11 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public PageResult queryUsers(Map<String, String> filterMap) {
+		return this.userDAO.queryUsers(filterMap);
 	}
 
 }

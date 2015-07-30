@@ -14,8 +14,11 @@ public class User {
 	private String isvalidate;//真人验证，0:未验证，1:验证失败，2:验证成功
 	private String headPortrait;//头像
 	private int age;//年龄
+	private int gender;//性别：0未知，1男，2女
 	private String introduction;//个人介绍
 	private Date registrationDate;//注册时间
+	private int orgId;//用户权限，0普通用户，1管理员
+	private Date validateDate;//真人验证审批时间
 	
 	public int getId() {
 		return id;
@@ -94,6 +97,24 @@ public class User {
 	}
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
+	}
+	public int getGender() {
+		return gender;
+	}
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+	public int getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(int orgId) {
+		this.orgId = orgId;
+	}
+	public Date getValidateDate() {
+		return validateDate;
+	}
+	public void setValidateDate(Date validateDate) {
+		this.validateDate = validateDate;
 	}
 	
 }

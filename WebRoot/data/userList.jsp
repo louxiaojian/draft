@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <link href="../css/css.css" rel="stylesheet" type="text/css" />
-<title>数据管理</title>
+<title>用户管理</title>
 <meta http-equiv="X-UA-Compatible" content="IE=7" />
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/jqGrid/themes/cupertino/jquery-ui-1.7.2.custom.css" />
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/jqGrid/css/jqgrid.css" />
@@ -44,38 +44,51 @@ text-overflow : ellipsis;
 	var dateStr = now.getFullYear()+"-"+((now.getMonth()+1)<10?"0":"")+(now.getMonth()+1)+"-"+(now.getDate()<10?"0":"")+now.getDate()
 	$(document).ready(function(){
 		$("#gridTable").jqGrid({					
-			url:'<%=request.getContextPath()%>/photo_queryPhotos.action?edit_date='+dateStr+'&temp='+Math.round(Math.random()*10000),
+			url:'<%=request.getContextPath()%>/user_queryUsers.action?edit_date='+dateStr+'&temp='+Math.round(Math.random()*10000),
 			datatype: "json",
-			//treeGrid: true,
-            //treeGridModel: 'adjacency',//treeGrid模式，跟json元数据有关  
-            //ExpandColumn : 'type',
-			height: 500,
-			autoheight: true,
+			height: window.screen.availHeight/2.2,
+			//autoheight: true,
 			width: widthScroll/1.5, 
-			colNames:['ID','分类','上传时间','审核时间','审核状态','赞','踩','浏览量','举报','用户id','上传用户','所属选秀周期','所属主题'],
+			//id,username,loginname,password,address,telephone,name,flag,isvalidate,headPortrait,age,introduction,registration_date,org_id，gender
+			colNames:['ID','昵称','登录名','真实姓名','密码','性别','年龄','地址','联系电话','用户状态','真人验证状态','头像','个人介绍','注册时间','用户类型','真人验证时间'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
-					{name:'type',index:'type', width:80,align: 'center'}, 
-					{name:'uploadDate',index:'uploadDate', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-					{name:'auditingDate',index:'auditingDate', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-					{name:'status',index:'status', width:80,align: 'center',
+					{name:'username',index:'username', width:80,align: 'center'}, 
+					{name:'loginname',index:'loginname', width:80,align: 'center'}, 
+					{name:'name',index:'name', width:80,align: 'center'}, 
+					{name:'password',index:'password', width:80,align: 'center',hidden:true}, 
+					{name:'gender',index:'gender', width:80,align: 'center'}, 
+					{name:'age',index:'age', width:80,align: 'center'}, 
+					{name:'address',index:'address', width:80,align: 'center'}, 
+					{name:'telephone',index:'telephone', width:80,align: 'center'}, 
+					{name:'flag',index:'flag', width:80,align: 'center',
 						formatter: function(cellvalue, options, rowObject) {
-							if(rowObject.status=='审核通过'){
-					  			return "<p style=\"color: #FFC125;font-size: 16px;\">审核通过</p>";
-							}else if(rowObject.status=='未审核'){
-					  			return "<p style=\"color: green;font-size: 16px;\">未审核</p>" ;
-							}else if(rowObject.status=='未通过'){
-					  			return "<p style=\"color: red;font-size: 16px;\">未通过</p>" ;
+							if(rowObject.flag=='未激活'){
+					  			return "<p style=\"color: #FFC125;font-size: 16px;\">未激活</p>";
+							}else if(rowObject.flag=='正常'){
+					  			return "<p style=\"color: green;font-size: 16px;\">正常</p>" ;
+							}else if(rowObject.flag=='冻结'){
+					  			return "<p style=\"color: red;font-size: 16px;\">冻结</p>" ;
+							}
+		  				}}, 
+					{name:'isvalidate',index:'isvalidate', width:80,align: 'center',
+						formatter: function(cellvalue, options, rowObject) {
+							if(rowObject.isvalidate=='未验证'){
+					  			return "<p style=\"color: #FFC125;font-size: 16px;\">未验证</p>";
+							}else if(rowObject.isvalidate=='验证成功'){
+					  			return "<p style=\"color: green;font-size: 16px;\">验证成功</p>" ;
+							}else if(rowObject.isvalidate=='验证失败'){
+					  			return "<p style=\"color: red;font-size: 16px;\">验证失败</p>" ;
 							}
 		  				}},
-				  	{name:'praise',index:'praise', width:50,align: 'center'},
-			  		{name:'tread',index:'tread', width:50,align: 'center'},
-			  		{name:'view',index:'view', width:50,align: 'center'},
-			  		{name:'report',index:'report', width:50,align: 'center'},
-	  				{name:'userid',index:'userid', width:150,align: 'center',hidden:true},
-	  				{name:'userName',index:'userName', width:80,align: 'center',hidden:false},
-	  				{name:'cycle_no',index:'cycle_no', width:80,align: 'center',hidden:false},
-	  				{name:'theme_name',index:'theme_name', width:80,align: 'center',hidden:false}
+					{name:'isvalidate',index:'isvalidate', width:80,align: 'center',
+							formatter: function(cellvalue, options, rowObject) {
+					  			return "<img src='"+rowObject.headPortrait+"'>" ;
+			  				}}, 
+					{name:'introduction',index:'introduction', width:80,align: 'center'}, 
+					{name:'registration_date',index:'registration_date', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+				  	{name:'org_id',index:'org_id', width:50,align: 'center'}, 
+					{name:'validateDate',index:'validateDate', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}}
 			],
 			shrinkToFit:false,
 			sortname:'id',
@@ -92,7 +105,7 @@ text-overflow : ellipsis;
 			altRows:true,//隔行变色
 			altclass:'altclass',//隔行变色样式
 			onSelectRow:function(id){
-				var actionUrl = "<%=request.getContextPath()%>/photo_queryPhotoByPictureSetId.action?pictureSetId="+id;  
+				var actionUrl = "<%=request.getContextPath()%>/photo_queryVerificationPhotoByUserId.action?userId="+id;  
 				$.ajax({  
 					  url : actionUrl,  
 				      type : "post", 
@@ -126,12 +139,6 @@ text-overflow : ellipsis;
 			pager:"#gridPager",
 			caption: "数据列表"
 	});
-		$(function(){
-            $(window).resize(function(){   
-         //$("#gridTable").setGridHeight($(window).height());
-        });
-       }); 
-		//jQuery("#gridTable").hideCol("username").trigger("reloadGrid");
 	 jQuery("#gridTable").jqGrid('navGrid','#gridPager',{add:false,edit:false,del:false,search:false,refresh:false});
 		jQuery("#gridTable").jqGrid('navButtonAdd','#gridPager',
 					{ 	
@@ -180,19 +187,23 @@ text-overflow : ellipsis;
 	function gridSearch(){
 		var starttime = jQuery("#starttime").val();
 		var endtime = jQuery("#endtime").val();
-		var type = jQuery("#type").val();
-		var status = jQuery("#status").val();
+		var loginname = jQuery("#loginname").val();
+		var flag = jQuery("#flag").val();
+		var orgId = jQuery("#orgId").val();
+		var isvalidate = jQuery("#isvalidate").val();
 		var params = {  
             "starttime" : $.trim(starttime),
             "endtime" : $.trim(endtime),
-            "type" : encodeURIComponent($.trim(type)),
-            "status" : encodeURIComponent($.trim(status))
+            "loginname" : encodeURIComponent($.trim(loginname)),
+            "orgId" : encodeURIComponent($.trim(orgId)),
+            "isvalidate" : encodeURIComponent($.trim(isvalidate)),
+            "flag" : encodeURIComponent($.trim(flag))
 		};							 
 		 var postData = $("#gridTable").jqGrid("getGridParam", "postData");
 		 $.extend(postData, params);
 		jQuery("#gridTable").jqGrid('setGridParam',
 		{
-			url:'<%=request.getContextPath()%>/photo_queryPhotos.action'
+			url:'<%=request.getContextPath()%>/user_queryUsers.action'
 		}).trigger("reloadGrid", [{page:1}]); 
     } 
 	//刷新
@@ -203,11 +214,13 @@ text-overflow : ellipsis;
 	function reset() {
 		jQuery("#starttime").val("");
 		jQuery("#endtime").val("");
-		jQuery("#type").val("");
-		jQuery("#status").val("");
+		jQuery("#loginname").val("");
+		jQuery("#flag").val("");
+		jQuery("#orgId").val("");
+		jQuery("#isvalidate").val("");
 	}
 	
-	//审核
+	//审核用户真实性
 	function auditing(){
 		var ids = $("#gridTable").jqGrid("getGridParam", "selarrrow") + "";
 	    if (!ids) {
@@ -219,10 +232,10 @@ text-overflow : ellipsis;
 		var ua = navigator.userAgent.toLowerCase();
         if(ua.match(/chrome\/([\d.]+)/)){
         	//window.open(','newwindow', 'width:'+width+',status:no,height:'+height);
-        	window.open ("<%=request.getContextPath()%>/data/auditingPhotos.jsp?type=0&ids="+ids+"&temp="+new Date(), "newwindow", "height="+height+", width="+width+",scrollbars=no");
+        	window.open ("<%=request.getContextPath()%>/data/auditingPhotos.jsp?type=1&ids="+ids+"&temp="+new Date(), "newwindow", "height="+height+", width="+width+",scrollbars=no");
 			//refreshIt();
         } else{
-	   		window.showModalDialog('<%=request.getContextPath()%>/data/auditingPhotos.jsp?type=0&ids='+ids+'&temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+	   		window.showModalDialog('<%=request.getContextPath()%>/data/auditingPhotos.jsp?type=1&ids='+ids+'&temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
 	   		refreshIt();
         }
 	}
@@ -266,23 +279,34 @@ text-overflow : ellipsis;
 			<tr>
 				<td>&nbsp;&nbsp;时间：<input type="text" id="starttime"
 						name="starttime" value="" class="input"
-						onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endtime\')}'})"
+						onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endtime\')}'})"
 						readonly="readonly" style="width:120px;" />
 				&nbsp;—&nbsp;<input type="text" id="endtime"
 						name="endtime" value="" class="input"
-						onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'starttime\')}'})"
+						onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'starttime\')}'})"
 						readonly="readonly" style="width:120px;" />
 				</td>
-				<td>分类：<select id="type" name="type" style="width:150px;">
+				<td>&nbsp;&nbsp;用户名：<input type="text" id="loginname"
+						name="loginname" value="" class="input" style="width:120px;" />
+				</td>
+				<td>分类：<select id="flag" name="flag" style="width:150px;">
 								<option value="" selected="selected">--请选择--</option>
-								<option value="0">个人</option>
-								<option value="1">秀场</option>
+								<option value="0">未激活</option>
+								<option value="1">正常</option>
+								<option value="2">冻结</option>
 						</select>
-				<td>状态：<select id="status" name="status" style="width:150px;">
+				</td>
+				<td>状态：<select id="orgId" name="orgId" style="width:150px;">
 						<option value="">全部</option>
-						<option value="0">未审核</option>
-						<option value="1">审核通过</option>
-						<option value="2">未通过</option>
+						<option value="0">普通用户</option>
+						<option value="1">管理员</option>
+					</select>
+				</td>
+				<td>真人验证：<select id="isvalidate" name="isvalidate" style="width:150px;">
+						<option value="">全部</option>
+						<option value="0">未验证</option>
+						<option value="1">验证成功</option>
+						<option value="2">验证失败</option>
 					</select>
 				</td>
 				<td><input type="button"
@@ -297,7 +321,7 @@ text-overflow : ellipsis;
 		<table style="width: 100%;" class="tableCont">
 			<tr>
 				<td>
-					<input id="add" type='button' value='审批' onclick="auditing();" class='button_b'/>
+					<input id="add" type='button' value='审批真人验证' onclick="auditing();" class='button_b1'/>
 <%--					<input id="refresh" type='button' value='查 看' onclick='preview()' class='button_b' />--%>
 					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />
 					<input id="refresh" type='button' value='刷 新' onclick='refreshIt()' class='button_b' />

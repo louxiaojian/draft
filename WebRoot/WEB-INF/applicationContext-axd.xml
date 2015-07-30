@@ -18,6 +18,8 @@
 			<ref bean="userDAO" />
 		</constructor-arg>
 	</bean>
-	
+	<bean id="userAction" class="cn.zmdx.draft.actions.UserAction">
+		<property name="userService" ref="userService"></property>
+	</bean>
 
 </beans>

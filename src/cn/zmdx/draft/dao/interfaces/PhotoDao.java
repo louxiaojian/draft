@@ -24,4 +24,28 @@ public interface PhotoDao extends ParentDAO {
 	 * @param sql
 	 */
 	public void executeSql(String sql);
+
+	/**
+	 * 获取照片集所有照片
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-29 时间：下午4:18:04
+	 * @throws IOException
+	 */
+	public PageResult queryPhotoByPictureSetId(Map<String, String> filterMap);
+	/**
+	 * 获取照片集所有照片
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-29 时间：下午4:18:04
+	 * @throws IOException
+	 */
+	public List queryPhotoByPictureSetId(String pictureSetId);
+
+	/**
+	 * 获取用户真人验证照片
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-30 时间：下午2:31:13
+	 * @param userId
+	 * @return
+	 */
+	public List queryVerificationPhotoByUserId(String userId);
 }

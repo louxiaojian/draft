@@ -2,6 +2,7 @@ package cn.zmdx.draft.service.interfaces;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import cn.zmdx.draft.entity.PageResult;
@@ -63,4 +64,26 @@ public interface PhotoService {
 	 * @param ids
 	 */
 	public void deletePhotoByIds(String ids);
+	/**
+	 * 获取照片集所有照片
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-29 时间：下午4:18:04
+	 * @throws IOException
+	 */
+	public PageResult queryPhotoByPictureSetId(Map<String, String> filterMap);
+	/**
+	 * 获取照片集所有照片
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-29 时间：下午4:18:04
+	 * @throws IOException
+	 */
+	public List queryPhotoByPictureSetId(String pictureSetId);
+	/**
+	 * 获取用户真人验证照片
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-30 时间：下午2:30:42
+	 * @param userId
+	 * @return
+	 */
+	public List queryVerificationPhotoByUserId(String userId);
 }

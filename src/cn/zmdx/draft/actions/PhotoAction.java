@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import cn.zmdx.draft.entity.ReviewRecords;
 import cn.zmdx.draft.service.impl.PhotoServiceImpl;
 import cn.zmdx.draft.util.DataUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PhotoAction extends ActionSupport {
@@ -95,7 +97,7 @@ public class PhotoAction extends ActionSupport {
 	}
 
 	/**
-	 * 查询所有的照片
+	 * 查询所有的照片集
 	 * 
 	 * @author louxiaojian
 	 * @date： 日期：2015-7-13 时间：下午5:07:12
@@ -142,7 +144,56 @@ public class PhotoAction extends ActionSupport {
 		}
 	}
 	/**
-	 * 审核图片
+	 * 获取照片集所有照片
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-29 时间：下午4:18:04
+	 * @throws IOException
+	 */
+	public void queryPhotoByPictureSetId() throws IOException {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		PrintWriter out = response.getWriter();
+		try {
+			response.setContentType("text/json; charset=utf-8");
+			String pictureSetId = request.getParameter("pictureSetId");
+			String[] viewArray = { "ID","photoUrl", "uploadDate", "userid","pictureSetId"};
+			List list=photoService.queryPhotoByPictureSetId(pictureSetId);
+			out.print("{\"result\":\"success\",\"list\":"+JSON.toJSONString(list)+"}");
+		} catch (Exception e) {
+			e.printStackTrace();
+			out.print("error");
+		} finally {
+			out.flush();
+			out.close();
+		}
+	}
+	
+	/**
+	 * 获取用户真人验证照片
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-30 时间：下午2:30:48
+	 * @throws IOException
+	 */
+	public void queryVerificationPhotoByUserId() throws IOException {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		PrintWriter out = response.getWriter();
+		try {
+			response.setContentType("text/json; charset=utf-8");
+			String userId = request.getParameter("userId");
+			String[] viewArray = { "ID","photoUrl", "uploadDate", "userid","pictureSetId"};
+			List list=photoService.queryVerificationPhotoByUserId(userId);
+			out.print("{\"result\":\"success\",\"list\":"+JSON.toJSONString(list)+"}");
+		} catch (Exception e) {
+			e.printStackTrace();
+			out.print("error");
+		} finally {
+			out.flush();
+			out.close();
+		}
+	}
+	/**
+	 * 审核图集或真人验证
 	 * @author louxiaojian
 	 * @date： 日期：2015-7-15 时间：下午4:22:37
 	 * @throws IOException
@@ -156,10 +207,13 @@ public class PhotoAction extends ActionSupport {
 			String ids=request.getParameter("ids");
 			String status=request.getParameter("status");
 			String descs=request.getParameter("descs");
+			String type=request.getParameter("type");
 			ReviewRecords rr=new ReviewRecords();
 			rr.setDatetime(new Date());
 			rr.setDescs(descs);
 			rr.setStatus(status);
+			rr.setType(Integer.parseInt(type));
+			rr.setOperatorId(Integer.parseInt(request.getSession().getAttribute("USER_ID").toString()));
 			this.photoService.auditing(ids,rr);
 			out.print("{\"result\":\"success\"}");
 		} catch (Exception e) {

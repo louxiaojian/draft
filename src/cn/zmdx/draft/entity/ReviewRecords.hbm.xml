@@ -9,6 +9,9 @@
 		<property name="descs" column="descs"/>
 		<property name="status" column="status"/>
 		<property name="datetime" column="datetime"/>
+		<property name="operatorId" column="operator_id"/>
+		<property name="userId" column="user_id"/>
+		<property name="type" column="type"/>
 	</class>
 	
 </hibernate-mapping>

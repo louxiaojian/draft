@@ -97,6 +97,7 @@ html {
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="infoTableSpace">
 					<input type="hidden" id="ids" name="ids" value="<%=request.getParameter("ids") %>" style="width: 500px" />
+					<input type="hidden" id="type" name="type" value="<%=request.getParameter("type") %>" style="width: 500px" />
 					<tr>
 						<td align="right">审核：</td>
 						<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;通过<input type="radio" name="status" value="1" checked="checked"/>&nbsp;&nbsp;&nbsp;&nbsp;不通过<input type="radio" name="status" value="2"/></td>

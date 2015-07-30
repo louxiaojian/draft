@@ -1,6 +1,7 @@
 package cn.zmdx.draft.dao.impl;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Query;
@@ -65,5 +66,34 @@ public class PhotoDaoImpl extends ParentDAOImpl implements PhotoDao {
 	public void executeSql(String sql){
 		Query query=this.getSession().createSQLQuery(sql);
 		query.executeUpdate();
+	}
+
+	@Override
+	public PageResult queryPhotoByPictureSetId(Map<String, String> filterMap) {
+		StringBuffer sqlCount=new StringBuffer("select count(*) from (select id,photoUrl,uploadDate,userid,picture_set_id from photo where 1=1 ");
+		StringBuffer sql=new StringBuffer("select id,photoUrl,uploadDate,userid,picture_set_id from photo where 1=1 ");
+		if(filterMap!=null&&!filterMap.isEmpty()){
+			if(!"".equals(filterMap.get("pictureSetId"))&&filterMap.get("pictureSetId")!=null){
+				sql.append(" and picture_set_id ="+filterMap.get("pictureSetId"));
+				sqlCount.append(" and picture_set_id ="+filterMap.get("pictureSetId"));
+			}
+		}
+		sql.append(" order by "+filterMap.get("sidx")+" "+filterMap.get("sord"));
+		sqlCount.append(") t");
+		return searchBySQL(sqlCount.toString(), sql.toString(), filterMap);
+	}
+
+	@Override
+	public List queryPhotoByPictureSetId(String pictureSetId) {
+		Query query=getSession().createSQLQuery("select photoUrl from photo where picture_set_id =?");
+		query.setInteger(0, Integer.parseInt(pictureSetId));
+		return query.list();
+	}
+
+	@Override
+	public List queryVerificationPhotoByUserId(String userId) {
+		Query query=getSession().createSQLQuery("select photoUrl from photo where userid =? and picture_set_id=0");
+		query.setInteger(0, Integer.parseInt(userId));
+		return query.list();
 	}
 }
