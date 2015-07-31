@@ -246,4 +246,44 @@ public class PhotoAction extends ActionSupport {
 			out.close();
 		}
 	}
+	
+	/**
+	 * 查看审批记录
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-31 时间：下午12:33:42
+	 * @throws IOException
+	 */
+	public void viewReviewRecords() throws IOException {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		PrintWriter out = response.getWriter();
+		try {
+			response.setContentType("text/json; charset=utf-8");
+			String type = request.getParameter("type");
+			String userId = request.getParameter("userId");
+			String pictureSetId = request.getParameter("pictureSetId");
+			Map<String, String> filterMap = getPagerMap();//id,status,photo_set_id,descs,datetime,operator_id,user_id,type
+			String[] viewArray = { "ID", "status:[{'1':'审核通过','2':'未通过'}]", "photo_set_id",
+					"descs", "datetime","operator_id","operator_name","user_id", "type" };
+			if (type != null && !"".equals(type)) {
+				filterMap.put("type", type);
+			}
+			if (userId != null && !"".equals(userId)) {
+				filterMap.put("userId", userId);
+			}
+			if (pictureSetId != null && !"".equals(pictureSetId)) {
+				filterMap.put("pictureSetId", pictureSetId);
+			}
+			PageResult result = (PageResult) photoService.viewReviewRecords(filterMap);
+			String returnStr = DataUtil.getColumnJson(result, viewArray, rows,
+					page);
+			out.print(returnStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			out.print("error");
+		} finally {
+			out.flush();
+			out.close();
+		}
+	}
 }

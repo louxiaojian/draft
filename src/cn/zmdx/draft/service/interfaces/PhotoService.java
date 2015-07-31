@@ -86,4 +86,12 @@ public interface PhotoService {
 	 * @return
 	 */
 	public List queryVerificationPhotoByUserId(String userId);
+	/**
+	 * 查看审批记录
+	 * @author louxiaojian
+	 * @date： 日期：2015-7-31 时间：下午12:35:35
+	 * @param filterMap
+	 * @return
+	 */
+	public PageResult viewReviewRecords(Map<String, String> filterMap);
 }

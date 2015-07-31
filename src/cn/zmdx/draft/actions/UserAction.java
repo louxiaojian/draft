@@ -102,7 +102,7 @@ public class UserAction  extends ActionSupport{
 			//id,username,loginname,password,address,telephone,name,flag,isvalidate,headPortrait,age,introduction,registration_date,org_id
 			String[] viewArray = { "ID", "username", "loginname","password","address","telephone","name",
 					"flag:[{'0':'未激活','1':'正常','2':'冻结'}]",
-					"isvalidate:[{'0':'未验证','1':'验证成功','2':'验证失败'}]", "headPortrait",
+					"isvalidate:[{'0':'未验证','1':'验证成功','2':'验证失败','3':'待审核'}]", "headPortrait",
 					"age", "introduction", "registration_date","org_id:[{'0':'普通用户','1':'管理员'}]","gender:[{'0':'未知','1':'男','2':'女'}]","validateDate" };
 			if (loginname != null && !"".equals(loginname)) {
 				filterMap.put("loginname", loginname);

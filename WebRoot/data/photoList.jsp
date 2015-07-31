@@ -91,7 +91,7 @@ text-overflow : ellipsis;
 			toolbar: [false,"top"],
 			altRows:true,//隔行变色
 			altclass:'altclass',//隔行变色样式
-			onSelectRow:function(id){
+			ondblClickRow:function(id){
 				var actionUrl = "<%=request.getContextPath()%>/photo_queryPhotoByPictureSetId.action?pictureSetId="+id;  
 				$.ajax({  
 					  url : actionUrl,  
@@ -104,13 +104,13 @@ text-overflow : ellipsis;
 				      success : function(data, textStatus) {
 				    	 var result =data.list;
 			    		 var div1=document.getElementById("div1");
-				    	 div1.style.display="block";
 				    	 document.getElementById("div1").innerHTML="";
 				    	 for(var i=0;i<result.length;i++){
 				    		 var img=document.createElement("img");
 				    		 img.src=result[i];
 				    		 img.style.width='400px';
 				    		 div1.appendChild(img);
+					    	 div1.style.display="block";
 				    	 }
 				      }  
 				});
@@ -256,7 +256,29 @@ text-overflow : ellipsis;
 		var div1=document.getElementById("div1");
 		div1.style.display="none";
 	}
-	
+	//查看审批记录
+	function viewReviewRecords(){
+		var ids= $("#gridTable").jqGrid("getGridParam", "selarrrow") + "";
+		if (!ids) {
+		    alert("请先选择记录!");  
+		    return false;  
+		}
+		if(ids.indexOf(",")!=-1){
+			  alert("只能选择一条记录!");  
+		        return false; 
+		}
+		var row = jQuery("#gridTable").jqGrid('getRowData',ids);//获取选中行.
+		var width = screen.width/2.9;
+		var height = screen.height/2.2;
+		var ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/chrome\/([\d.]+)/)){
+        	window.open("<%=request.getContextPath()%>/data/viewReviewRecords.jsp?type=0&pictureSetId="+ids+"&temp="+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+			refreshIt();
+        } else{
+	   		window.showModalDialog("<%=request.getContextPath()%>/data/viewReviewRecords.jsp?type=0&pictureSetId="+ids+"&temp="+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+	   		refreshIt();
+        }
+	}
 </script>
 </head>
 <body>
@@ -301,6 +323,7 @@ text-overflow : ellipsis;
 <%--					<input id="refresh" type='button' value='查 看' onclick='preview()' class='button_b' />--%>
 					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />
 					<input id="refresh" type='button' value='刷 新' onclick='refreshIt()' class='button_b' />
+					<input id="add" type='button' value='查看审批记录' onclick="viewReviewRecords();" class='button_b1'/>
 				</td>
 			</tr>
 			<tr>

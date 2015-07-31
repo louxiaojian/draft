@@ -91,4 +91,9 @@ public class PhotoServiceImpl implements PhotoService {
 		return this.photoDao.queryVerificationPhotoByUserId(userId);
 	}
 
+	@Override
+	public PageResult viewReviewRecords(Map<String, String> filterMap) {
+		return this.photoDao.viewReviewRecords(filterMap);
+	}
+
 }

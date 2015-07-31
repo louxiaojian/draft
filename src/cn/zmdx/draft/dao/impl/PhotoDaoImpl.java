@@ -96,4 +96,27 @@ public class PhotoDaoImpl extends ParentDAOImpl implements PhotoDao {
 		query.setInteger(0, Integer.parseInt(userId));
 		return query.list();
 	}
+
+	@Override
+	public PageResult viewReviewRecords(Map<String, String> filterMap) {
+		StringBuffer sqlCount=new StringBuffer("select count(*) from (SELECT rr.id FROM review_records rr left join users u on u.id=rr.operator_id where 1=1 ");
+		StringBuffer sql=new StringBuffer("select id,status,photo_set_id,descs,datetime,operator_id,operator_name,user_id,type from (SELECT rr.id,rr.status,photo_set_id,rr.descs,rr.datetime,rr.operator_id,u.loginname as operator_name,rr.user_id,rr.type FROM review_records rr left join users u on u.id=rr.operator_id where 1=1 ");
+		if(filterMap!=null&&!filterMap.isEmpty()){
+			if("0".equals(filterMap.get("type"))){
+				if(!"".equals(filterMap.get("pictureSetId"))&&filterMap.get("pictureSetId")!=null){
+					sql.append(" and photo_set_id ="+filterMap.get("pictureSetId"));
+					sqlCount.append(" and photo_set_id ="+filterMap.get("pictureSetId"));
+				}
+			}else if("1".equals(filterMap.get("type"))){
+				if(!"".equals(filterMap.get("userId"))&&filterMap.get("userId")!=null){
+					sql.append(" and user_id ="+filterMap.get("userId"));
+					sqlCount.append(" and user_id ="+filterMap.get("userId"));
+				}
+			}
+		}
+		sql.append(" order by "+filterMap.get("sidx")+" "+filterMap.get("sord"));
+		sql.append(") t");
+		sqlCount.append(") t");
+		return searchBySQL(sqlCount.toString(), sql.toString(), filterMap);
+	}
 }

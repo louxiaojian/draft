@@ -50,7 +50,7 @@ text-overflow : ellipsis;
 			//autoheight: true,
 			width: widthScroll/1.5, 
 			//id,username,loginname,password,address,telephone,name,flag,isvalidate,headPortrait,age,introduction,registration_date,org_id，gender
-			colNames:['ID','昵称','登录名','真实姓名','密码','性别','年龄','地址','联系电话','用户状态','真人验证状态','头像','个人介绍','注册时间','用户类型','真人验证时间'],
+			colNames:['ID','昵称','登录名','真实姓名','密码','性别','年龄','地址','联系电话','用户状态','真人验证状态','真人验证状态','头像','个人介绍','注册时间','用户类型','真人验证时间'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
 					{name:'username',index:'username', width:80,align: 'center'}, 
@@ -71,7 +71,8 @@ text-overflow : ellipsis;
 					  			return "<p style=\"color: red;font-size: 16px;\">冻结</p>" ;
 							}
 		  				}}, 
-					{name:'isvalidate',index:'isvalidate', width:80,align: 'center',
+	  				{name:'isvalidate',index:'isvalidate', width:80,align: 'center'}, 
+		  			{name:'formatterisvalidate',index:'formatterisvalidate', width:80,align: 'center',
 						formatter: function(cellvalue, options, rowObject) {
 							if(rowObject.isvalidate=='未验证'){
 					  			return "<p style=\"color: #FFC125;font-size: 16px;\">未验证</p>";
@@ -79,9 +80,11 @@ text-overflow : ellipsis;
 					  			return "<p style=\"color: green;font-size: 16px;\">验证成功</p>" ;
 							}else if(rowObject.isvalidate=='验证失败'){
 					  			return "<p style=\"color: red;font-size: 16px;\">验证失败</p>" ;
+							}else if(rowObject.isvalidate=='待审核'){
+					  			return "<p style=\"color: pink;font-size: 16px;\">待审核</p>" ;
 							}
 		  				}},
-					{name:'isvalidate',index:'isvalidate', width:80,align: 'center',
+					{name:'headPortrait',index:'headPortrait', width:80,align: 'center',
 							formatter: function(cellvalue, options, rowObject) {
 					  			return "<img src='"+rowObject.headPortrait+"'>" ;
 			  				}}, 
@@ -104,7 +107,7 @@ text-overflow : ellipsis;
 			toolbar: [false,"top"],
 			altRows:true,//隔行变色
 			altclass:'altclass',//隔行变色样式
-			onSelectRow:function(id){
+			ondblClickRow:function(id){
 				var actionUrl = "<%=request.getContextPath()%>/photo_queryVerificationPhotoByUserId.action?userId="+id;  
 				$.ajax({  
 					  url : actionUrl,  
@@ -117,13 +120,13 @@ text-overflow : ellipsis;
 				      success : function(data, textStatus) {
 				    	 var result =data.list;
 			    		 var div1=document.getElementById("div1");
-				    	 div1.style.display="block";
 				    	 document.getElementById("div1").innerHTML="";
 				    	 for(var i=0;i<result.length;i++){
 				    		 var img=document.createElement("img");
 				    		 img.src=result[i];
 				    		 img.style.width='400px';
 				    		 div1.appendChild(img);
+					    	 div1.style.display="block";
 				    	 }
 				      }  
 				});
@@ -222,11 +225,20 @@ text-overflow : ellipsis;
 	
 	//审核用户真实性
 	function auditing(){
-		var ids = $("#gridTable").jqGrid("getGridParam", "selarrrow") + "";
+		var ids = $("#gridTable").jqGrid("getGridParam", "selarrrow");
 	    if (!ids) {
 	    	alert("请先选择记录!");  
 			return false;  
-		}
+		}alert(ids[0])
+	    var row = jQuery("#gridTable").jqGrid('getRowData',ids[0]);//获取选中行.
+	    var isvalidate=row.isvalidate;
+	    for(var i=1;i<ids.length;i++){
+	    	var row1 = jQuery("#gridTable").jqGrid('getRowData',ids[i]);//获取选中行.
+	    	if(isvalidate!=row1.isvalidate){
+	    		alert("只能处理待审核状态用户");
+	    		return false;
+	    	}
+	    }
 		var width = screen.width/2.5;
 		var height = screen.height/2.5;
 		var ua = navigator.userAgent.toLowerCase();
@@ -239,9 +251,12 @@ text-overflow : ellipsis;
 	   		refreshIt();
         }
 	}
-	
-	//查看
-	function preview(){
+	function hiddenDiv(){
+		var div1=document.getElementById("div1");
+		div1.style.display="none";
+	}
+	//查看审批记录
+	function viewReviewRecords(){
 		var ids= $("#gridTable").jqGrid("getGridParam", "selarrrow") + "";
 		if (!ids) {
 		    alert("请先选择记录!");  
@@ -251,23 +266,17 @@ text-overflow : ellipsis;
 			  alert("只能选择一条记录!");  
 		        return false; 
 		}
-		alert("请确保所选数据状态是否一致，避免误操作！");
 		var row = jQuery("#gridTable").jqGrid('getRowData',ids);//获取选中行.
-		var photoUrl = row.photoUrl;//获取选中行的id属性
-		var width = screen.width/2;
-		var height = screen.height/2;
+		var width = screen.width/2.9;
+		var height = screen.height/2.2;
 		var ua = navigator.userAgent.toLowerCase();
         if(ua.match(/chrome\/([\d.]+)/)){
-        	window.open(photoUrl,'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+        	window.open("<%=request.getContextPath()%>/data/viewReviewRecords.jsp?type=1&userId="+ids+"&temp="+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
 			refreshIt();
         } else{
-	   		window.showModalDialog(photoUrl,'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+	   		window.showModalDialog("<%=request.getContextPath()%>/data/viewReviewRecords.jsp?type=1&userId="+ids+"&temp="+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
 	   		refreshIt();
         }
-	}
-	function hiddenDiv(){
-		var div1=document.getElementById("div1");
-		div1.style.display="none";
 	}
 	
 </script>
@@ -305,6 +314,7 @@ text-overflow : ellipsis;
 				<td>真人验证：<select id="isvalidate" name="isvalidate" style="width:150px;">
 						<option value="">全部</option>
 						<option value="0">未验证</option>
+						<option value="3">待审核</option>
 						<option value="1">验证成功</option>
 						<option value="2">验证失败</option>
 					</select>
@@ -325,6 +335,7 @@ text-overflow : ellipsis;
 <%--					<input id="refresh" type='button' value='查 看' onclick='preview()' class='button_b' />--%>
 					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />
 					<input id="refresh" type='button' value='刷 新' onclick='refreshIt()' class='button_b' />
+					<input id="add" type='button' value='查看审批记录' onclick="viewReviewRecords();" class='button_b1'/>
 				</td>
 			</tr>
 			<tr>
