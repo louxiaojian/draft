@@ -40,6 +40,15 @@ public class PhotoDaoImpl extends ParentDAOImpl implements PhotoDao {
 		StringBuffer sqlCount=new StringBuffer("select count(*) from (select p.id from picture_set p left join users u on p.userid=u.id left join cycle_photo_set cp on p.id =cp.photo_set_id left join cycle c on cp.cycle_id=c.id left join themes th on th.id =c.theme_id where 1=1 ");
 		StringBuffer sql=new StringBuffer("select p.id,p.uploadDate,p.descs,p.type,p.status,p.praise,p.tread,p.auditingDate,p.userid,p.report,p.view,u.loginname,c.cycle_no,th.name from picture_set p left join users u on p.userid=u.id left join cycle_photo_set cp on p.id =cp.photo_set_id left join cycle c on cp.cycle_id=c.id left join themes th on th.id =c.theme_id where 1=1 ");
 		if(filterMap!=null&&!filterMap.isEmpty()){
+			if(!"".equals(filterMap.get("themeId"))&&filterMap.get("themeId")!=null){
+				sql.append(" and th.id ='"+filterMap.get("themeId")+"'");
+				sqlCount.append(" and th.id ='"+filterMap.get("themeId")+"'");
+			}
+
+			if(!"".equals(filterMap.get("cycleId"))&&filterMap.get("cycleId")!=null){
+				sql.append(" and cp.cycle_id ='"+filterMap.get("cycleId")+"'");
+				sqlCount.append(" and cp.cycle_id ='"+filterMap.get("cycleId")+"'");
+			}
 			if(!"".equals(filterMap.get("type"))&&filterMap.get("type")!=null){
 				sql.append(" and type ='"+filterMap.get("type")+"'");
 				sqlCount.append(" and type ='"+filterMap.get("type")+"'");

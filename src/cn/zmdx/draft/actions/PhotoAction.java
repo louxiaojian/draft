@@ -113,6 +113,8 @@ public class PhotoAction extends ActionSupport {
 			String starttime = request.getParameter("starttime");
 			String endtime = request.getParameter("endtime");
 			String status = request.getParameter("status");
+			String themeId = request.getParameter("themeId");
+			String cycleId = request.getParameter("cycleId");
 			Map<String, String> filterMap = getPagerMap();
 			String[] viewArray = { "ID", "uploadDate", "descs",
 					"type:[{'0':'个人','1':'秀场'}]",
@@ -129,6 +131,12 @@ public class PhotoAction extends ActionSupport {
 			}
 			if (status != null && !"".equals(status)) {
 				filterMap.put("status", status);
+			}
+			if (themeId != null && !"".equals(themeId)) {
+				filterMap.put("themeId", themeId);
+			}
+			if (cycleId != null && !"".equals(cycleId)) {
+				filterMap.put("cycleId", cycleId);
 			}
 			PageResult result = (PageResult) photoService
 					.queryPhotos(filterMap);

@@ -182,11 +182,15 @@ text-overflow : ellipsis;
 		var endtime = jQuery("#endtime").val();
 		var type = jQuery("#type").val();
 		var status = jQuery("#status").val();
+		var themeId = jQuery("#themeId").val();
+		var cycleId = jQuery("#cycleId").val();
 		var params = {  
             "starttime" : $.trim(starttime),
             "endtime" : $.trim(endtime),
             "type" : encodeURIComponent($.trim(type)),
-            "status" : encodeURIComponent($.trim(status))
+            "status" : encodeURIComponent($.trim(status)),
+            "themeId" : encodeURIComponent($.trim(themeId)),
+            "cycleId" : encodeURIComponent($.trim(cycleId))
 		};							 
 		 var postData = $("#gridTable").jqGrid("getGridParam", "postData");
 		 $.extend(postData, params);
@@ -205,6 +209,8 @@ text-overflow : ellipsis;
 		jQuery("#endtime").val("");
 		jQuery("#type").val("");
 		jQuery("#status").val("");
+		jQuery("#themeId").val("");
+		jQuery("#cycleId").val("");
 	}
 	
 	//审核
@@ -279,6 +285,55 @@ text-overflow : ellipsis;
 	   		refreshIt();
         }
 	}
+	//加载主题
+	function initThemes(obj){
+		if(obj.value==1){
+			var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=themes&columns=id,name";  
+			$.ajax({  
+			  url : actionUrl,  
+		      type : "post", 
+		      dataType : "json",  
+		      cache : false,  
+		      error : function(textStatus, errorThrown) {  
+		          alert("系统ajax交互错误: " + textStatus.value);  
+		      },  
+		      success : function(data, textStatus) {
+		    	  var result =data.data;
+		    	  var theme = $("#themeId");
+		    	  for(var i=0;i<result.length;i++){
+		    		  theme.append('<option value="'+result[i][0]+'">'+result[i][1]+'</option>');
+		    	  }
+		      }  
+			});
+		}else if(obj.value==0){
+			jQuery("#themeId").empty();
+			jQuery("#themeId").append('<option value="">--请选择--</option>');
+			jQuery("#cycleId").empty();
+			jQuery("#cycleId").append('<option value="">--请选择--</option>');
+		}
+	}
+	//加载周期
+	function initCycles(obj){
+		jQuery("#cycleId").empty();
+		jQuery("#cycleId").append('<option value="">--请选择--</option>');
+		var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=cycle&columns=id,cycle_no&whereCol=theme_id&whereVal="+obj.value;  
+		$.ajax({  
+		  url : actionUrl,  
+	      type : "post", 
+	      dataType : "json",  
+	      cache : false,  
+	      error : function(textStatus, errorThrown) {  
+	          alert("系统ajax交互错误: " + textStatus.value);  
+	      },  
+	      success : function(data, textStatus) {
+	    	  var result =data.data;
+	    	  var cycle = $("#cycleId");
+	    	  for(var i=0;i<result.length;i++){
+	    		  cycle.append('<option value="'+result[i][0]+'">'+result[i][1]+'</option>');
+	    	  }
+	      }  
+		});
+	}
 </script>
 </head>
 <body>
@@ -295,12 +350,21 @@ text-overflow : ellipsis;
 						onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'starttime\')}'})"
 						readonly="readonly" style="width:120px;" />
 				</td>
-				<td>分类：<select id="type" name="type" style="width:150px;">
+				<td>分类：<select id="type" name="type" style="width:80px;" onchange="initThemes(this)">
 								<option value="" selected="selected">--请选择--</option>
 								<option value="0">个人</option>
 								<option value="1">秀场</option>
 						</select>
-				<td>状态：<select id="status" name="status" style="width:150px;">
+				</td>
+				<td>主题：<select id="themeId" name="themeId" style="width:100px;" onchange="initCycles(this)">
+							<option value="">--请选择--</option>
+						</select>
+				</td>
+				<td>选秀周期：<select id="cycleId" name="cycleId" style="width:100px;">
+								<option value="">--请选择--</option>
+						</select>
+				</td>
+				<td>状态：<select id="status" name="status" style="width:100px;">
 						<option value="">全部</option>
 						<option value="0">未审核</option>
 						<option value="1">审核通过</option>
@@ -321,7 +385,7 @@ text-overflow : ellipsis;
 				<td>
 					<input id="add" type='button' value='审批' onclick="auditing();" class='button_b'/>
 <%--					<input id="refresh" type='button' value='查 看' onclick='preview()' class='button_b' />--%>
-					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />
+<%--					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />--%>
 					<input id="refresh" type='button' value='刷 新' onclick='refreshIt()' class='button_b' />
 					<input id="add" type='button' value='查看审批记录' onclick="viewReviewRecords();" class='button_b1'/>
 				</td>

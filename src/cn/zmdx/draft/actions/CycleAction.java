@@ -330,7 +330,9 @@ public class CycleAction extends ActionSupport {
 		try {
 			String tableName = ServletActionContext.getRequest().getParameter("tableName");
 			String columns = ServletActionContext.getRequest().getParameter("columns");
-			List list= cycleService.queryInitData(tableName,columns);
+			String whereCol = ServletActionContext.getRequest().getParameter("whereCol");
+			String whereVal = ServletActionContext.getRequest().getParameter("whereVal");
+			List list= cycleService.queryInitData(tableName,columns,whereCol,whereVal);
 			if (list.size() > 0) {
 				out.print("{\"result\":\"success\",\"data\":"
 						+ JSON.toJSONString(list, true)+"}");

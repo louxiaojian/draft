@@ -111,8 +111,12 @@ public class CycleDaoImpl extends ParentDAOImpl implements CycleDao {
 	}
 
 	@Override
-	public List queryInitData(String tableName, String columns) {
-		Query query= this.getSession().createSQLQuery("select "+columns+" from "+tableName);
+	public List queryInitData(String tableName, String columns, String whereCol, String whereVal) {
+		StringBuffer sb=new StringBuffer("select "+columns+" from "+tableName);
+		if(!"".equals(whereCol)&&whereCol!=null){
+			sb.append(" where "+whereCol+"='"+whereVal+"'");
+		}
+		Query query= this.getSession().createSQLQuery(sb.toString());
 		return query.list();
 	}
 

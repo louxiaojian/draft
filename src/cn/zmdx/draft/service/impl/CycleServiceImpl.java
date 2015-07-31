@@ -52,8 +52,8 @@ public class CycleServiceImpl implements CycleService {
 	}
 
 	@Override
-	public List queryInitData(String tableName, String columns) {
-		return this.cycleDao.queryInitData(tableName, columns);
+	public List queryInitData(String tableName, String columns, String whereCol, String whereVal) {
+		return this.cycleDao.queryInitData(tableName, columns,whereCol,whereVal);
 	}
 	
 

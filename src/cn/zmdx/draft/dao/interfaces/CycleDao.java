@@ -31,7 +31,9 @@ public interface CycleDao extends ParentDAO {
 	 * @date： 日期：2015-7-14 时间：下午3:58:47
 	 * @param tableName
 	 * @param columns
+	 * @param whereVal 
+	 * @param whereCol 
 	 * @return
 	 */
-	public List queryInitData(String tableName, String columns);
+	public List queryInitData(String tableName, String columns, String whereCol, String whereVal);
 }

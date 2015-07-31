@@ -66,5 +66,5 @@ public interface CycleService {
 	 * @param columns
 	 * @return
 	 */
-	public List queryInitData(String tableName, String columns);
+	public List queryInitData(String tableName, String columns,String whereCol, String whereVal);
 }
