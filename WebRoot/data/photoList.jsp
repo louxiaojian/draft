@@ -52,7 +52,8 @@ text-overflow : ellipsis;
 			height: 500,
 			autoheight: true,
 			width: widthScroll/1.5, 
-			colNames:['ID','分类','上传时间','审核时间','审核状态','赞','踩','浏览量','举报','用户id','上传用户','所属选秀周期','所属主题'],
+			////p.id,p.uploadDate,p.descs,p.type,p.status,p.praise,p.tread,p.auditingDate,p.userid,p.report,p.view,u.loginname,tc.theme_title 
+			colNames:['ID','分类','上传时间','审核时间','审核状态','赞','踩','浏览量','举报','用户id','上传用户','所属主题'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
 					{name:'type',index:'type', width:80,align: 'center'}, 
@@ -74,8 +75,7 @@ text-overflow : ellipsis;
 			  		{name:'report',index:'report', width:50,align: 'center'},
 	  				{name:'userid',index:'userid', width:150,align: 'center',hidden:true},
 	  				{name:'userName',index:'userName', width:80,align: 'center',hidden:false},
-	  				{name:'cycle_no',index:'cycle_no', width:80,align: 'center',hidden:false},
-	  				{name:'theme_name',index:'theme_name', width:80,align: 'center',hidden:false}
+	  				{name:'theme_title',index:'theme_title', width:80,align: 'center',hidden:false}
 			],
 			shrinkToFit:false,
 			sortname:'id',
@@ -91,7 +91,7 @@ text-overflow : ellipsis;
 			toolbar: [false,"top"],
 			altRows:true,//隔行变色
 			altclass:'altclass',//隔行变色样式
-			ondblClickRow:function(id){
+			<%--ondblClickRow:function(id){
 				var actionUrl = "<%=request.getContextPath()%>/photo_queryPhotoByPictureSetId.action?pictureSetId="+id;  
 				$.ajax({  
 					  url : actionUrl,  
@@ -114,7 +114,7 @@ text-overflow : ellipsis;
 				    	 }
 				      }  
 				});
-			},
+			},--%>
 			jsonReader: {
 				root:"rows",		// 数据行（默认为：rows）
 				page: "page",  	// 当前页
@@ -126,6 +126,25 @@ text-overflow : ellipsis;
 			pager:"#gridPager",
 			caption: "数据列表"
 	});
+		
+		var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=theme_cycle&columns=id,theme_title";  
+		$.ajax({  
+		  url : actionUrl,  
+	      type : "post", 
+	      dataType : "json",  
+	      cache : false,  
+	      error : function(textStatus, errorThrown) {  
+	          alert("系统ajax交互错误: " + textStatus.value);  
+	      },  
+	      success : function(data, textStatus) {
+	    	  var result =data.data;
+	    	  var cycle = $("#themeCycleId");
+	    	  for(var i=0;i<result.length;i++){
+	    		  cycle.append('<option value="'+result[i][0]+'">'+result[i][1]+'</option>');
+	    	  }
+	      }  
+		});
+		
 		$(function(){
             $(window).resize(function(){   
          //$("#gridTable").setGridHeight($(window).height());
@@ -183,14 +202,14 @@ text-overflow : ellipsis;
 		var type = jQuery("#type").val();
 		var status = jQuery("#status").val();
 		var themeId = jQuery("#themeId").val();
-		var cycleId = jQuery("#cycleId").val();
+		var themeCycleId = jQuery("#themeCycleId").val();
 		var params = {  
             "starttime" : $.trim(starttime),
             "endtime" : $.trim(endtime),
             "type" : encodeURIComponent($.trim(type)),
             "status" : encodeURIComponent($.trim(status)),
             "themeId" : encodeURIComponent($.trim(themeId)),
-            "cycleId" : encodeURIComponent($.trim(cycleId))
+            "cycleId" : encodeURIComponent($.trim(themeCycleId))
 		};							 
 		 var postData = $("#gridTable").jqGrid("getGridParam", "postData");
 		 $.extend(postData, params);
@@ -210,7 +229,7 @@ text-overflow : ellipsis;
 		jQuery("#type").val("");
 		jQuery("#status").val("");
 		jQuery("#themeId").val("");
-		jQuery("#cycleId").val("");
+		jQuery("#themeCycleId").val("");
 	}
 	
 	//审核
@@ -286,6 +305,7 @@ text-overflow : ellipsis;
         }
 	}
 	//加载主题
+	<%--
 	function initThemes(obj){
 		if(obj.value==1){
 			var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=themes&columns=id,name";  
@@ -311,12 +331,12 @@ text-overflow : ellipsis;
 			jQuery("#cycleId").empty();
 			jQuery("#cycleId").append('<option value="">--请选择--</option>');
 		}
-	}
+	}--%>
 	//加载周期
-	function initCycles(obj){
-		jQuery("#cycleId").empty();
-		jQuery("#cycleId").append('<option value="">--请选择--</option>');
-		var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=cycle&columns=id,cycle_no&whereCol=theme_id&whereVal="+obj.value;  
+	function initCycles(){
+		jQuery("#themeCycleId").empty();
+		jQuery("#themeCycleId").append('<option value="">--请选择--</option>');
+		var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=cycle&columns=id,cycle_no&whereCol=theme_id";  
 		$.ajax({  
 		  url : actionUrl,  
 	      type : "post", 
@@ -327,7 +347,7 @@ text-overflow : ellipsis;
 	      },  
 	      success : function(data, textStatus) {
 	    	  var result =data.data;
-	    	  var cycle = $("#cycleId");
+	    	  var cycle = $("#themeCycleId");
 	    	  for(var i=0;i<result.length;i++){
 	    		  cycle.append('<option value="'+result[i][0]+'">'+result[i][1]+'</option>');
 	    	  }
@@ -356,11 +376,11 @@ text-overflow : ellipsis;
 								<option value="1">秀场</option>
 						</select>
 				</td>
-				<td>主题：<select id="themeId" name="themeId" style="width:100px;" onchange="initCycles(this)">
+				<%--<td>主题：<select id="themeId" name="themeId" style="width:100px;" onchange="initCycles(this)">
 							<option value="">--请选择--</option>
 						</select>
-				</td>
-				<td>选秀周期：<select id="cycleId" name="cycleId" style="width:100px;">
+				</td> --%>
+				<td>选秀主题：<select id="themeCycleId" name="themeCycleId" style="width:100px;">
 								<option value="">--请选择--</option>
 						</select>
 				</td>
@@ -383,11 +403,11 @@ text-overflow : ellipsis;
 		<table style="width: 100%;" class="tableCont">
 			<tr>
 				<td>
-					<input id="add" type='button' value='审批' onclick="auditing();" class='button_b'/>
-<%--					<input id="refresh" type='button' value='查 看' onclick='preview()' class='button_b' />--%>
-<%--					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />--%>
+					<%--<input id="add" type='button' value='审批' onclick="auditing();" class='button_b'/>
+					<input id="refresh" type='button' value='查 看' onclick='preview()' class='button_b' />--%>
+<%--					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />
 					<input id="refresh" type='button' value='刷 新' onclick='refreshIt()' class='button_b' />
-					<input id="add" type='button' value='查看审批记录' onclick="viewReviewRecords();" class='button_b1'/>
+					<input id="add" type='button' value='查看审批记录' onclick="viewReviewRecords();" class='button_b1'/>--%>
 				</td>
 			</tr>
 			<tr>

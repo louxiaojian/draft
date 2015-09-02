@@ -83,7 +83,7 @@
 		<property name="beanNames">
 			<list>
 				<value>userDAO</value>
-				<value>lockerDAO</value>
+				<!-- <value>lockerDAO</value> -->
 				<value>cycleDao</value>
 				<value>photoDao</value>
 			</list>

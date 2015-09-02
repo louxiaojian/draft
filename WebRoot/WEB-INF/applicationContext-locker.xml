@@ -7,17 +7,17 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 	
-	<bean id="lockerDAO" class="cn.zmdx.draft.dao.impl.LockerDAOImpl">
-		<property name="sessionFactory" ref="sessionFactory" />
-		<constructor-arg>
-			<ref bean="hibernateTemplate" />
-		</constructor-arg>
-	</bean>
-	<bean id="lockerService" class="cn.zmdx.draft.service.impl.LockerServiceImpl">
-		<constructor-arg>
-			<ref bean="lockerDAO" />
-		</constructor-arg>
-	</bean>
+<!-- 	<bean id="lockerDAO" class="cn.zmdx.draft.dao.impl.LockerDAOImpl"> -->
+<!-- 		<property name="sessionFactory" ref="sessionFactory" /> -->
+<!-- 		<constructor-arg> -->
+<!-- 			<ref bean="hibernateTemplate" /> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="lockerService" class="cn.zmdx.draft.service.impl.LockerServiceImpl"> -->
+<!-- 		<constructor-arg> -->
+<!-- 			<ref bean="lockerDAO" /> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
 	<bean id="cycleDao" class="cn.zmdx.draft.dao.impl.CycleDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<constructor-arg>

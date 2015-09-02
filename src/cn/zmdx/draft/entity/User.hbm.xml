@@ -20,6 +20,11 @@
 		<property name="orgId" column="org_id"/>
 		<property name="gender" column="gender"/>
 		<property name="validateDate" column="validateDate"/>
+		<property name="report" column="report"/>
+		<property name="uid" column="uid"/>
+		<property name="thirdParty" column="third_party"/>
+		<property name="fileid" column="fileid"/>
+		<property name="validateUrl" column="validateUrl"/>
 	</class>
 	
 </hibernate-mapping>

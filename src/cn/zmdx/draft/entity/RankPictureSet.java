@@ -6,6 +6,7 @@ import java.util.List;
 public class RankPictureSet {
 	
 	private int id;
+	private int pictureSetId;
 	private Date uploadDate;//上传时间
 	private String descs;//描述
 	private String type;//分类，0:个人，1:秀场
@@ -17,7 +18,14 @@ public class RankPictureSet {
 	private int report;//举报次数
 	private int view;//浏览量
 	private int votes;//选秀得票数
+	private int themeCycleId;
+	private String coverUrl;//图集封面url
 	private List<Photo> photoList;
+	private int comments;
+	private User user;//图集所属用户
+	private String isUserPraised;//用户是否点赞
+	private int orderId;//排序主键
+	private double rank;
 	
 	public int getId() {
 		return id;
@@ -97,5 +105,52 @@ public class RankPictureSet {
 	public void setPhotoList(List<Photo> photoList) {
 		this.photoList = photoList;
 	}
-	
+	public int getThemeCycleId() {
+		return themeCycleId;
+	}
+	public void setThemeCycleId(int themeCycleId) {
+		this.themeCycleId = themeCycleId;
+	}
+	public int getPictureSetId() {
+		return pictureSetId;
+	}
+	public void setPictureSetId(int pictureSetId) {
+		this.pictureSetId = pictureSetId;
+	}
+	public int getComments() {
+		return comments;
+	}
+	public void setComments(int comments) {
+		this.comments = comments;
+	}
+	public String getCoverUrl() {
+		return coverUrl;
+	}
+	public void setCoverUrl(String coverUrl) {
+		this.coverUrl = coverUrl;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public String getIsUserPraised() {
+		return isUserPraised;
+	}
+	public void setIsUserPraised(String isUserPraised) {
+		this.isUserPraised = isUserPraised;
+	}
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+	public double getRank() {
+		return rank;
+	}
+	public void setRank(double rank) {
+		this.rank = rank;
+	}
 }

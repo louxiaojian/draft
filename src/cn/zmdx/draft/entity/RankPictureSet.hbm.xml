@@ -5,6 +5,7 @@
 	  <id name="id" column="id" type="int" >
 			<generator class="native" />
 		</id>
+		<property name="pictureSetId" column="picture_set_id"/>
 		<property name="uploadDate" column="uploadDate"/>
 		<property name="descs" column="descs"/>
 		<property name="type" column="type" />	
@@ -16,6 +17,9 @@
 		<property name="report" column="report" />	
 		<property name="view" column="view" />	
 		<property name="votes" column="votes" />	
+		<property name="coverUrl" column="coverUrl" />	
+		<property name="themeCycleId" column="theme_cycle_id" />
+		<property name="rank" column="rank" />
 	</class>
 	
 </hibernate-mapping>

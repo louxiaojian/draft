@@ -41,23 +41,23 @@ public class CycleDaoImpl extends ParentDAOImpl implements CycleDao {
 		StringBuffer queryString = new StringBuffer();
 		StringBuffer queryCountString = new StringBuffer();
 		queryCountString
-				.append("select count(*) from (select c.id from cycle c left join themes th on th.id=c.theme_id where 1=1  ");
+				.append("select count(*) from (SELECT id FROM theme_cycle where 1=1  ");
 		queryString
-				.append("select c.id,cycle_no,starttime,signup_endtime,endtime,status,theme_id,th.name from cycle c left join themes th on th.id=c.theme_id where 1=1 ");
+				.append("SELECT id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url FROM theme_cycle where 1=1 ");
 		if (filterMap != null && !filterMap.isEmpty()) {
-			if (null != filterMap.get("cycleNo")
-					&& !"".equals(filterMap.get("cycleNo"))) {
-				queryCountString.append("and cycle_no like '%"
-						+ filterMap.get("cycleNo") + "%' ");
-				queryString.append("and cycle_no like '%" + filterMap.get("cycleNo")
+			if (null != filterMap.get("themeTitle")
+					&& !"".equals(filterMap.get("themeTitle"))) {
+				queryCountString.append("and theme_title like '%"
+						+ filterMap.get("themeTitle") + "%' ");
+				queryString.append("and theme_title like '%" + filterMap.get("themeTitle")
 						+ "%' ");
 			}
 			if (null != filterMap.get("starttime")
 					&& !"".equals(filterMap.get("starttime"))) {
 				queryCountString.append("and starttime >= '"
-						+ filterMap.get("endtime") + "' ");
+						+ filterMap.get("starttime") + "' ");
 				queryString.append("and starttime >= '"
-						+ filterMap.get("endtime") + "' ");
+						+ filterMap.get("starttime") + "' ");
 			}
 			if (null != filterMap.get("endtime")
 					&& !"".equals(filterMap.get("endtime"))) {
@@ -72,13 +72,6 @@ public class CycleDaoImpl extends ParentDAOImpl implements CycleDao {
 						+ filterMap.get("status") + "'  ");
 				queryString.append("and status = '"
 						+ filterMap.get("status") + "'  ");
-			}
-			if (null != filterMap.get("themeId")
-					&& !"".equals(filterMap.get("themeId"))) {
-				queryCountString.append("and theme_id = '"
-						+ filterMap.get("themeId") + "'  ");
-				queryString.append("and theme_id = '"
-						+ filterMap.get("themeId") + "'  ");
 			}
 		}
 		queryString.append(" order by "+filterMap.get("sidx")+" "+filterMap.get("sord"));

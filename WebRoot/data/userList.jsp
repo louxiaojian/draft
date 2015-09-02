@@ -50,7 +50,7 @@ text-overflow : ellipsis;
 			//autoheight: true,
 			width: widthScroll/1.5, 
 			//id,username,loginname,password,address,telephone,name,flag,isvalidate,headPortrait,age,introduction,registration_date,org_id，gender
-			colNames:['ID','昵称','登录名','真实姓名','密码','性别','年龄','地址','联系电话','用户状态','真人验证状态','真人验证状态','头像','个人介绍','注册时间','用户类型','真人验证时间'],
+			colNames:['ID','昵称','登录名','真实姓名','密码','性别','年龄','地址','联系电话','用户状态','真人验证状态','真人验证状态','真人验证照片','头像','个人介绍','注册时间','用户类型','真人验证时间'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
 					{name:'username',index:'username', width:80,align: 'center'}, 
@@ -71,7 +71,7 @@ text-overflow : ellipsis;
 					  			return "<p style=\"color: red;font-size: 16px;\">冻结</p>" ;
 							}
 		  				}}, 
-	  				{name:'isvalidate',index:'isvalidate', width:80,align: 'center'}, 
+	  				{name:'isvalidate',index:'isvalidate', width:80,align: 'center',hidden:true}, 
 		  			{name:'formatterisvalidate',index:'formatterisvalidate', width:80,align: 'center',
 						formatter: function(cellvalue, options, rowObject) {
 							if(rowObject.isvalidate=='未验证'){
@@ -80,13 +80,21 @@ text-overflow : ellipsis;
 					  			return "<p style=\"color: green;font-size: 16px;\">验证成功</p>" ;
 							}else if(rowObject.isvalidate=='验证失败'){
 					  			return "<p style=\"color: red;font-size: 16px;\">验证失败</p>" ;
-							}else if(rowObject.isvalidate=='待审核'){
-					  			return "<p style=\"color: pink;font-size: 16px;\">待审核</p>" ;
+							}else if(rowObject.isvalidate=='审核中'){
+					  			return "<p style=\"color: pink;font-size: 16px;\">审核中</p>" ;
 							}
 		  				}},
+					{name:'validateUrl',index:'validateUrl', width:80,align: 'center',
+							formatter: function(cellvalue, options, rowObject) {
+								if(rowObject.validateUrl!=null&&""!=rowObject.validateUrl){
+						  			return "<img src='"+rowObject.validateUrl+"' height='32px' width='32px'>" ;
+								}else{
+									return "";
+								}
+			  				}}, 
 					{name:'headPortrait',index:'headPortrait', width:80,align: 'center',
 							formatter: function(cellvalue, options, rowObject) {
-					  			return "<img src='"+rowObject.headPortrait+"'>" ;
+					  			return "<img src='"+rowObject.headPortrait+"' height='32px' width='32px'>" ;
 			  				}}, 
 					{name:'introduction',index:'introduction', width:80,align: 'center'}, 
 					{name:'registration_date',index:'registration_date', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
@@ -229,7 +237,7 @@ text-overflow : ellipsis;
 	    if (!ids) {
 	    	alert("请先选择记录!");  
 			return false;  
-		}alert(ids[0])
+		}
 	    var row = jQuery("#gridTable").jqGrid('getRowData',ids[0]);//获取选中行.
 	    var isvalidate=row.isvalidate;
 	    for(var i=1;i<ids.length;i++){
@@ -314,7 +322,7 @@ text-overflow : ellipsis;
 				<td>真人验证：<select id="isvalidate" name="isvalidate" style="width:150px;">
 						<option value="">全部</option>
 						<option value="0">未验证</option>
-						<option value="3">待审核</option>
+						<option value="3">审核中</option>
 						<option value="1">验证成功</option>
 						<option value="2">验证失败</option>
 					</select>

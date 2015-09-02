@@ -48,17 +48,24 @@ text-overflow : ellipsis;
 			datatype: "json",
 			height: 500,
 			autoheight: true,
-			width: widthScroll/1.5, //"ID", "cycle_no", "starttime", "signup_endtime", "endtime", "status", "theme_id"
-			colNames:['ID','周期号','开始时间','报名结束时间','周期结束时间','状态','所属主题id','所属主题'],
+			width: widthScroll/1.5, //id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url
+			colNames:['ID','主题标题','开始时间','结束时间','状态','背景图','主题描述','标签','详情图片'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
-					{name:'cycle_no',index:'cycle_no', width:80,align: 'center'}, 
+					{name:'theme_title',index:'theme_title', width:80,align: 'center'}, 
 					{name:'starttime',index:'starttime', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}}, 
-					{name:'signup_endtime',index:'signup_endtime', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}}, 
 					{name:'endtime',index:'endtime', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
 					{name:'status',index:'status', width:80,align: 'center'},
-					{name:'theme_id',index:'theme_id', width:150,align: 'center',hidden:true},
-					{name:'theme_name',index:'theme_name', width:150,align: 'center'},
+					{name:'bg_url',index:'bg_url', width:150,align: 'center',
+						formatter: function(cellvalue, options, rowObject) {
+				  			return "<img src='"+rowObject.bg_url+"' width='60px' height='60px'>" ;
+		  				}},
+					{name:'descs',index:'descs', width:150,align: 'center'},
+					{name:'tag_url',index:'tag_url', width:150,align: 'center'},
+					{name:'detail_image_url',index:'detail_image_url', width:150,align: 'center',
+						formatter: function(cellvalue, options, rowObject) {
+				  			return "<img src='"+rowObject.detail_image_url+"' width='60px' height='60px'>" ;
+		  				}}
 			],
 			shrinkToFit:false,
 			sortname:'id',
@@ -99,25 +106,6 @@ text-overflow : ellipsis;
 			jQuery("#gridTable").jqGrid('columnChooser');                           
 			}
 		}); 
-
-		var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=themes&columns=id,name";  
-		$.ajax({  
-			  url : actionUrl,  
-		      type : "post", 
-		      dataType : "json",  
-		      cache : false,  
-		      error : function(textStatus, errorThrown) {  
-		          alert("系统ajax交互错误: " + textStatus.value);  
-		      },  
-		      success : function(data, textStatus) {
-		    	  var result =data.data;
-		    	  var theme = $("#theme");
-		    	  for(var i=0;i<result.length;i++){
-		    		  theme.append('<option value="'+result[i][0]+'">'+result[i][1]+'</option>');
-		    	  }
-		      }  
-		});
-		
 	}); 
 	
 	//添加
@@ -194,16 +182,14 @@ text-overflow : ellipsis;
 	
     //查询
 	function gridSearch(){
-		var cycle_no = jQuery("#cycle_no").val();
+		var themeTitle = jQuery("#themeTitle").val();
 		var starttime = jQuery("#starttime").val();
 		var endtime = jQuery("#endtime").val();
-		var theme_id = jQuery("#theme").val();
 		var status = jQuery("#status").val();
 		var params = {  
-            "cycleNo" : encodeURIComponent($.trim(cycle_no)),
+            "themeTitle" : encodeURIComponent($.trim(themeTitle)),
             "starttime" : encodeURIComponent($.trim(starttime)),
             "endtime" : encodeURIComponent($.trim(endtime)),
-            "themeId" : encodeURIComponent($.trim(theme_id)),
             "status" : encodeURIComponent($.trim(status))
 		};							 
 		 var postData = $("#gridTable").jqGrid("getGridParam", "postData");
@@ -212,17 +198,16 @@ text-overflow : ellipsis;
 		{
 			url:'<%=request.getContextPath()%>/cycle_queryCycles.action'
 		}).trigger("reloadGrid", [{page:1}]); 
-    } 
+    }
 	//刷新
 	function refreshIt(){
 		gridSearch();
 	}
 	//清空
 	function reset() {
-		jQuery("#cycle_no").val("");
+		jQuery("#themeTitle").val("");
 		jQuery("#starttime").val("");
 		jQuery("#endtime").val("");
-		jQuery("#theme").val("");
 		jQuery("#status").val("");
 	}
 </script>
@@ -232,8 +217,8 @@ text-overflow : ellipsis;
 		<table width="100%" border="0" cellpadding="6" cellspacing="0"
 			class="tabman" style="width:100%;margin-bottom:0px">
 			<tr>
-				<td>&nbsp;&nbsp;周期号：<input type="text" id="cycle_no"
-					name="cycle_no" value="" class="input" style="width:120px;" />&nbsp;&nbsp;
+				<td>&nbsp;&nbsp;主题标题：<input type="text" id="themeTitle"
+					name="themeTitle" value="" class="input" style="width:120px;" />&nbsp;&nbsp;
 				</td>
 				<td>&nbsp;&nbsp;时间：<input type="text" id="starttime"
 						name="starttime" value="" class="input"
@@ -243,11 +228,6 @@ text-overflow : ellipsis;
 						name="endtime" value="" class="input"
 						onClick="WdatePicker()"
 						readonly="readonly" style="width:100px;" />
-				</td>
-				<td>&nbsp;&nbsp;主题：
-					<select id="theme" name="theme" style="width:80px;">
-						<option value="" selected="selected">--请选择--</option>
-					</select>
 				</td>
 				<td>&nbsp;&nbsp;状态：
 					<select id="status" name="status" style="width:80px;">
@@ -271,9 +251,9 @@ text-overflow : ellipsis;
 					<input id="update" type='button' value='修 改' onclick='updateData(0)' class='button_b' />
 					<input id="refresh" type='button' value='查 看' onclick='updateData(1)' class='button_b' />
 					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />
-					<input id="delete" type='button' value='批量修改时间' onclick='updateTime();' class='button_b1'"/>
+<%--					<input id="delete" type='button' value='批量修改时间' onclick='updateTime();' class='button_b1'"/>
 					<input id="delete" type='button' value='置顶' onclick='sticks();' class='button_b'"/>
-					<input id="delete" type='button' value='取消置顶' onclick='cancelStick();' class='button_b1'/>
+					<input id="delete" type='button' value='取消置顶' onclick='cancelStick();' class='button_b1'/>--%>
 					<input id="refresh" type='button' value='刷 新' onclick='refreshIt()' class='button_b' />
 				</td>
 			</tr>

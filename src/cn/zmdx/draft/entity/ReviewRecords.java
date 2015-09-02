@@ -11,7 +11,7 @@ public class ReviewRecords {
 	private int operatorId;
 	private int userId;
 	private int type;//审核类型，0图集，1用户真人审核
-	
+	private String operatorName;
 	public int getId() {
 		return id;
 	}
@@ -59,5 +59,11 @@ public class ReviewRecords {
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	public String getOperatorName() {
+		return operatorName;
+	}
+	public void setOperatorName(String operatorName) {
+		this.operatorName = operatorName;
 	}
 }

@@ -8,7 +8,7 @@ public class Photo {
 	private String photoUrl;//图片地址
 	private Date uploadDate;//上传时间
 //	private String descs;//描述
-//	private String type;//分类，0:个人，1:秀场
+	private int type;//0图集，1真人验证
 //	private String status;//审核状态，0:未审核，1:审核通过，2:审核未通过
 //	private int praise;//赞
 //	private int tread;//踩
@@ -16,7 +16,7 @@ public class Photo {
 	private int userid;
 //	private int report;//举报次数
 //	private int view;//浏览量
-//	private int votes;//选秀得票数
+	private String fileid;//万象fileid
 	private int pictureSetId;//图集id
 	
 	public int getId() {
@@ -43,12 +43,12 @@ public class Photo {
 //	public void setDescs(String descs) {
 //		this.descs = descs;
 //	}
-//	public String getType() {
-//		return type;
-//	}
-//	public void setType(String type) {
-//		this.type = type;
-//	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
 //	public String getStatus() {
 //		return status;
 //	}
@@ -102,6 +102,12 @@ public class Photo {
 	}
 	public void setPictureSetId(int pictureSetId) {
 		this.pictureSetId = pictureSetId;
+	}
+	public String getFileid() {
+		return fileid;
+	}
+	public void setFileid(String fileid) {
+		this.fileid = fileid;
 	}
 	
 }

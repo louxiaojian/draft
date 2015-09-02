@@ -1,5 +1,7 @@
 package cn.zmdx.draft.actions;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -18,9 +20,12 @@ import cn.zmdx.draft.entity.Themes;
 import cn.zmdx.draft.entity.User;
 import cn.zmdx.draft.service.impl.CycleServiceImpl;
 import cn.zmdx.draft.util.DataUtil;
+import cn.zmdx.draft.util.UploadPhoto;
+import cn.zmdx.draft.util.picCloud.PicCloud;
 
 import com.alibaba.fastjson.JSON;
 import com.opensymphony.xwork2.ActionSupport;
+import com.qcloud.UploadResult;
 /**
  * 选秀主题、周期相关操作
  * @author louxiaojian
@@ -35,6 +40,28 @@ public class CycleAction extends ActionSupport {
 	private String sord;
 	private Cycle cycle;
 	private Themes theme;
+	// 上传文件域
+	private File bgImage;
+	// 上传文件类型
+	private String bgImageContentType;
+	// 封装上传文件名 
+	private String bgImageFileName;
+	// 上传文件域
+	private File detailImage;
+	// 上传文件类型
+	private String detailImageContentType;
+	// 封装上传文件名 
+	private String detailImageFileName;
+	// 上传文件域
+	private File image;
+	// 上传文件类型
+	private String imageContentType;
+	// 封装上传文件名 
+	private String imageFileName;
+	public static final int APP_ID_V2 = 10002468;
+	public static final String SECRET_ID_V2 = "AKIDo26nbKDLWZA6xpPXzRUaYVPgf5wqqlp6";
+	public static final String SECRET_KEY_V2 = "upfmsUJgzOitvj0pCzSy4tV9ihdGeZMV";
+	public static final String BUCKET = "themepic"; // 空间名
 	
 	public void setCycleService(CycleServiceImpl cycleService) {
 		this.cycleService = cycleService;
@@ -47,6 +74,24 @@ public class CycleAction extends ActionSupport {
 	}
 	public String getPage() {
 		return page;
+	}
+	public File getImage() {
+		return image;
+	}
+	public void setImage(File image) {
+		this.image = image;
+	}
+	public String getImageContentType() {
+		return imageContentType;
+	}
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
+	}
+	public String getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
 	}
 	public void setPage(String page) {
 		this.page = page;
@@ -84,7 +129,42 @@ public class CycleAction extends ActionSupport {
 	public void setTheme(Themes theme) {
 		this.theme = theme;
 	}
-	
+	public File getBgImage() {
+		return bgImage;
+	}
+	public void setBgImage(File bgImage) {
+		this.bgImage = bgImage;
+	}
+	public String getBgImageContentType() {
+		return bgImageContentType;
+	}
+	public void setBgImageContentType(String bgImageContentType) {
+		this.bgImageContentType = bgImageContentType;
+	}
+	public String getBgImageFileName() {
+		return bgImageFileName;
+	}
+	public void setBgImageFileName(String bgImageFileName) {
+		this.bgImageFileName = bgImageFileName;
+	}
+	public File getDetailImage() {
+		return detailImage;
+	}
+	public void setDetailImage(File detailImage) {
+		this.detailImage = detailImage;
+	}
+	public String getDetailImageContentType() {
+		return detailImageContentType;
+	}
+	public void setDetailImageContentType(String detailImageContentType) {
+		this.detailImageContentType = detailImageContentType;
+	}
+	public String getDetailImageFileName() {
+		return detailImageFileName;
+	}
+	public void setDetailImageFileName(String detailImageFileName) {
+		this.detailImageFileName = detailImageFileName;
+	}
 	/*
 	 * 取得页面传过来的列表参数
 	 */
@@ -118,15 +198,14 @@ public class CycleAction extends ActionSupport {
 		PrintWriter out = response.getWriter();
 		try {
 			response.setContentType("text/json; charset=utf-8");
-			String cycleNo = request.getParameter("cycleNo");
+			String themeTitle = request.getParameter("themeTitle");
 			String starttime = request.getParameter("starttime");
 			String endtime = request.getParameter("endtime");
 			String status = request.getParameter("status");
-			String themeId = request.getParameter("themeId");
-			Map<String, String> filterMap = getPagerMap();
-			String[] viewArray = { "ID", "cycle_no", "starttime", "signup_endtime", "endtime", "status:[{'0':'未开始','1':'进行中','2':'已结束'}]", "theme_id","theme_name" };
-			if (cycleNo != null && !"".equals(cycleNo)) {
-				filterMap.put("cycleNo", cycleNo);
+			Map<String, String> filterMap = getPagerMap();//id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url
+			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'未开始','1':'进行中','2':'已结束'}]", "bg_url","descs","tag_url","detail_image_url" };
+			if (themeTitle != null && !"".equals(themeTitle)) {
+				filterMap.put("themeTitle", themeTitle);
 			}
 			if (starttime != null && !"".equals(starttime)) {
 				filterMap.put("starttime", starttime);
@@ -136,9 +215,6 @@ public class CycleAction extends ActionSupport {
 			}
 			if (status != null && !"".equals(status)) {
 				filterMap.put("status", status);
-			}
-			if (themeId != null && !"".equals(themeId)) {
-				filterMap.put("themeId", themeId);
 			}
 			PageResult result = (PageResult) cycleService.queryCycles(filterMap);
 			String returnStr = DataUtil.getColumnJson(result, viewArray,rows,page);
@@ -161,18 +237,55 @@ public class CycleAction extends ActionSupport {
 	public void saveCycle() throws IOException {
 		PrintWriter out = ServletActionContext.getResponse().getWriter();
 		try {
+			PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2,
+					BUCKET);
 			if (0 == cycle.getId()) {
 				cycle.setStatus("0");
+				if(getBgImage()!=null&&getBgImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getBgImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						cycle.setBgUrl(result.download_url);
+					}
+				}
+				if(getDetailImage()!=null&&getDetailImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getDetailImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						cycle.setDetailImageUrl(result.download_url);
+					}
+				}
 				cycleService.saveEntity(cycle);
 			} else {
 				Cycle entity = (Cycle)cycleService.getEntity(Cycle.class,cycle.getId());
 				entity.setId(cycle.getId());
-				entity.setCycleNo(cycle.getCycleNo());
+				entity.setThemeTitle(cycle.getThemeTitle());
 				entity.setStarttime(cycle.getStarttime());
-				entity.setSignupEndtime(cycle.getSignupEndtime());
 				entity.setEndtime(cycle.getEndtime());
 				entity.setStatus(cycle.getStatus());
-				entity.setThemeId(cycle.getThemeId());
+				entity.setDescs(cycle.getDescs());
+				if(getBgImage()!=null&&getBgImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getBgImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						entity.setBgUrl(result.download_url);
+					}
+				}
+				if(getDetailImage()!=null&&getDetailImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getDetailImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						entity.setDetailImageUrl(result.download_url);
+					}
+				}
 				cycleService.updateEntity(entity);
 			}
 			out.print("{\"result\":\"success\"}");

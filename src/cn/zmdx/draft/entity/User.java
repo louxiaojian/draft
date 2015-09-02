@@ -12,6 +12,7 @@ public class User {
 	private String loginname;//登录名
 	private String flag;//用户状态，0:未激活，1:正常，2:冻结
 	private String isvalidate;//真人验证，0:未验证，1:验证失败，2:验证成功,3:待审核
+	private String validateUrl;//真人验证图片地址
 	private String headPortrait;//头像
 	private int age;//年龄
 	private int gender;//性别：0未知，1男，2女
@@ -19,6 +20,15 @@ public class User {
 	private Date registrationDate;//注册时间
 	private int orgId;//用户权限，0普通用户，1管理员
 	private Date validateDate;//真人验证审批时间
+	private int report;
+	private String thirdParty;//登录平台
+	private String uid;
+	private String fileid;//头像图片 万象fileid
+	private String isAttention;//是否已关注，0已关注，1未关注
+	private String cookie;
+	
+	//选秀排名所用
+	private int praise;
 	
 	public int getId() {
 		return id;
@@ -115,6 +125,54 @@ public class User {
 	}
 	public void setValidateDate(Date validateDate) {
 		this.validateDate = validateDate;
+	}
+	public int getPraise() {
+		return praise;
+	}
+	public void setPraise(int praise) {
+		this.praise = praise;
+	}
+	public int getReport() {
+		return report;
+	}
+	public void setReport(int report) {
+		this.report = report;
+	}
+	public String getFileid() {
+		return fileid;
+	}
+	public void setFileid(String fileid) {
+		this.fileid = fileid;
+	}
+	public String getIsAttention() {
+		return isAttention;
+	}
+	public void setIsAttention(String isAttention) {
+		this.isAttention = isAttention;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	public String getThirdParty() {
+		return thirdParty;
+	}
+	public void setThirdParty(String thirdParty) {
+		this.thirdParty = thirdParty;
+	}
+	public String getCookie() {
+		return cookie;
+	}
+	public void setCookie(String cookie) {
+		this.cookie = cookie;
+	}
+	public String getValidateUrl() {
+		return validateUrl;
+	}
+	public void setValidateUrl(String validateUrl) {
+		this.validateUrl = validateUrl;
 	}
 	
 }

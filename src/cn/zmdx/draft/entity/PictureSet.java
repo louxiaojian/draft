@@ -17,7 +17,15 @@ public class PictureSet {
 	private int report;//举报次数
 	private int view;//浏览量
 	private int votes;//选秀得票数
-	private List<Photo> photoList;
+	private String coverUrl;//图集封面url
+	private int themeCycleId;
+	private List<Photo> photoList;//图集所有图片
+	private int comments;
+	private User user;//图集所属用户
+	private String isUserPraised;//用户是否点赞
+	private List<User> praiseUserList;
+	private int orderId;//排序主键
+	private double rank;
 	
 	public int getId() {
 		return id;
@@ -96,6 +104,54 @@ public class PictureSet {
 	}
 	public void setPhotoList(List<Photo> photoList) {
 		this.photoList = photoList;
+	}
+	public int getThemeCycleId() {
+		return themeCycleId;
+	}
+	public void setThemeCycleId(int themeCycleId) {
+		this.themeCycleId = themeCycleId;
+	}
+	public int getComments() {
+		return comments;
+	}
+	public void setComments(int comments) {
+		this.comments = comments;
+	}
+	public String getCoverUrl() {
+		return coverUrl;
+	}
+	public void setCoverUrl(String coverUrl) {
+		this.coverUrl = coverUrl;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public String getIsUserPraised() {
+		return isUserPraised;
+	}
+	public void setIsUserPraised(String isUserPraised) {
+		this.isUserPraised = isUserPraised;
+	}
+	public List<User> getPraiseUserList() {
+		return praiseUserList;
+	}
+	public void setPraiseUserList(List<User> praiseUserList) {
+		this.praiseUserList = praiseUserList;
+	}
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+	public double getRank() {
+		return rank;
+	}
+	public void setRank(double rank) {
+		this.rank = rank;
 	}
 	
 }

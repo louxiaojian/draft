@@ -74,7 +74,7 @@ public class UserDAOImpl extends ParentDAOImpl implements UserDAO {
 	@Override
 	public PageResult queryUsers(Map<String, String> filterMap) {
 		StringBuffer sqlCount=new StringBuffer("select count(*) from (SELECT id FROM users where 1=1 ");
-		StringBuffer sql=new StringBuffer("SELECT id,username,loginname,password,address,telephone,name,flag,isvalidate,headPortrait,age,introduction,registration_date,org_id,gender,validateDate FROM users where 1=1 ");
+		StringBuffer sql=new StringBuffer("SELECT id,username,loginname,password,address,telephone,name,flag,isvalidate,headPortrait,age,introduction,registration_date,org_id,gender,validateDate,validateUrl FROM users where 1=1 ");
 		if(filterMap!=null&&!filterMap.isEmpty()){
 			if(!"".equals(filterMap.get("loginname"))&&filterMap.get("loginname")!=null){//登录名
 				sql.append(" and loginname like '%"+filterMap.get("loginname")+"%'");

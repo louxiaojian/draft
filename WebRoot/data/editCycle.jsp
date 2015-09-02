@@ -24,11 +24,11 @@
 <link rel="stylesheet" type="text/css"
 	href="<%=path%>/js/jqueryui/themes/default/easyui.css" />
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/js/DatePicker/WdatePicker.js"></script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/jqueryui/jquery.easyui.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/web/style/layout2.css" />
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/DatePicker/WdatePicker.js"></script>
 <style type="text/css">
 body {
 	background: #ffffff;
@@ -55,7 +55,7 @@ body {
 	        return false;
         }
     	});
-         	
+        <%--	
        	var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=themes&columns=id,name";  
    		$.ajax({  
 		  url : actionUrl,  
@@ -74,13 +74,14 @@ body {
 
 	 		 $("#theme").val('${cycle.themeId }')
 	      }
-   		});
+   		});--%>
 	 });
 	 function checkedForm(){
 		if ($.trim($("#cycleNo").val()) == "") {
-			alert("周期号不能为空!");
+			alert("主题标题不能为空!");
 			return false;
 		}
+		/**
 		if ($.trim($("#starttime").val()) == "") {
 			alert("开始时间不能为空!");
 			return false;
@@ -92,7 +93,7 @@ body {
 		if ($.trim($("#endtime").val()) == "") {
 			alert("周期结束时间不能为空!");
 			return false;
-		}
+		}*/
 		return true;
 	 }
 </script>
@@ -131,18 +132,14 @@ html {
 				class="infoTableSpace">
 				<input type="hidden" id="id" name="cycle.id" value="${cycle.id}" style="width: 500px" />
 				<tr>
-					<td align="right">周期号：</td>
-					<td align="left"><input id="cycleNo" name="cycle.cycleNo" value="${cycle.cycleNo}" style="width:100px" /></td>
+					<td align="right">主题标题：</td>
+					<td align="left"><input id="cycleNo" name="cycle.themeTitle" value="${cycle.themeTitle}" style="width:100px" /></td>
 					<td align="right">开始时间：</td>
 					<td align="left"><input type="text" id="starttime" name="cycle.starttime" value="${cycle.starttime }" class="input" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'signupEndtime\')}'})" readonly="readonly" style="width:100px;" /></td>
 				</tr>
 				<tr>
-					<td align="right">报名结束时间：</td>
-					<td align="left"><input id="signupEndtime" name="cycle.signupEndtime" value="${cycle.signupEndtime}"  class="input" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'starttime\')}'})" readonly="readonly" style="width:100px;" /></td>
 					<td align="right">周期结束时间：</td>
 					<td align="left"><input id="endtime" name="cycle.endtime" value="${cycle.endtime}"  class="input" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'signupEndtime\')}'})" readonly="readonly" style="width:100px;" /></td>
-				</tr>
-				<tr>
 					<td align="right">周期状态：</td>
 					<td align="left">
 						<select id="status" name="cycle.status" style="width:108px;">
@@ -151,12 +148,21 @@ html {
 							<option value="2" <c:if test="${cycle.status==2 }">selected="selected"</c:if>>已结束</option>
 						</select>
 					</td>
-					<td align="right">主题：</td>
+				</tr>
+				<tr>
+					<td align="right">背景图：</td>
 					<td align="left">
-						<input type="hidden" name="theme_id" id="theme_id" value="${cycle.themeId }"/>
-						<select id="theme" name="cycle.themeId" style="width:108px;">
-							<option value="" selected="selected">--请选择--</option>
-						</select>
+						<input type="file" name="bgImage" />
+					</td>
+					<td align="right">选秀详情图片：</td>
+					<td align="left">
+						<input type="file" name="detailImage" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right">描述：</td>
+					<td colspan="3">
+						<textarea rows="5" cols="15" id="descs" name="cycle.descs">${cycle.descs }</textarea>
 					</td>
 				</tr>
 				<tr>
