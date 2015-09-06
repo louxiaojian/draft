@@ -91,7 +91,7 @@ text-overflow : ellipsis;
 			toolbar: [false,"top"],
 			altRows:true,//隔行变色
 			altclass:'altclass',//隔行变色样式
-			<%--ondblClickRow:function(id){
+			ondblClickRow:function(id){
 				var actionUrl = "<%=request.getContextPath()%>/photo_queryPhotoByPictureSetId.action?pictureSetId="+id;  
 				$.ajax({  
 					  url : actionUrl,  
@@ -114,7 +114,7 @@ text-overflow : ellipsis;
 				    	 }
 				      }  
 				});
-			},--%>
+			},
 			jsonReader: {
 				root:"rows",		// 数据行（默认为：rows）
 				page: "page",  	// 当前页

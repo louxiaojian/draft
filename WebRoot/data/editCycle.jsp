@@ -1,9 +1,5 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@page import="org.apache.commons.lang.time.DateFormatUtils"%>
-<%@page import="java.text.DateFormat"%>
-<%@page import="java.text.SimpleDateFormat"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -17,16 +13,21 @@
 <base target="_self" />
 
 <title>编辑选秀周期</title>
-<%@include file="/include/jquerylib.jsp"%>
 
 <link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/demo1.css" />
+	href="<%=request.getContextPath()%>/jqGrid/themes/cupertino/jquery-ui-1.7.2.custom.css" />
 <link rel="stylesheet" type="text/css"
-	href="<%=path%>/js/jqueryui/themes/default/easyui.css" />
+	href="<%=request.getContextPath()%>/jqGrid/css/jqgrid.css" />
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/js/jqueryui/jquery.easyui.min.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/web/style/layout2.css" />
+	src="<%=request.getContextPath()%>/jqGrid/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/jqGrid/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/jqGrid/js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/jqGrid/js/jquery.form.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/jqGrid/js/grid.locale-cn.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/DatePicker/WdatePicker.js"></script>
 <style type="text/css">
@@ -118,62 +119,79 @@ html {
 	color: #666;
 	background: url(../images/input_bg.gif) repeat-x top;
 }
-.button_b{height: 18px;width: 58.5px;background-image: url(<%=request.getContextPath()%>/images/inputBg3.png) ;background-size:cover;background-color: transparent;border: none ;}
+
+.button_b {
+	height: 18px;
+	width: 58.5px;
+	background-image: url(<%=request.getContextPath()%>/images/inputBg3.png
+		);
+	background-size: cover;
+	background-color: transparent;
+	border: none;
+}
 </style>
 </head>
 <body>
-<form action="" id="pageFrom" name="" method="post">
-	<fieldset class="fieldsetStyle">
-		<legend>
-			<font size="3">基本信息</font>
-		</legend>
-		<div class="fieldsetContent">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				class="infoTableSpace">
-				<input type="hidden" id="id" name="cycle.id" value="${cycle.id}" style="width: 500px" />
-				<tr>
-					<td align="right">主题标题：</td>
-					<td align="left"><input id="cycleNo" name="cycle.themeTitle" value="${cycle.themeTitle}" style="width:100px" /></td>
-					<td align="right">开始时间：</td>
-					<td align="left"><input type="text" id="starttime" name="cycle.starttime" value="${cycle.starttime }" class="input" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'signupEndtime\')}'})" readonly="readonly" style="width:100px;" /></td>
-				</tr>
-				<tr>
-					<td align="right">周期结束时间：</td>
-					<td align="left"><input id="endtime" name="cycle.endtime" value="${cycle.endtime}"  class="input" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'signupEndtime\')}'})" readonly="readonly" style="width:100px;" /></td>
-					<td align="right">周期状态：</td>
-					<td align="left">
-						<select id="status" name="cycle.status" style="width:108px;">
-							<option value="0" <c:if test="${cycle.status==0 }">selected="selected"</c:if>>未开始</option>
-							<option value="1" <c:if test="${cycle.status==1 }">selected="selected"</c:if>>进行中</option>
-							<option value="2" <c:if test="${cycle.status==2 }">selected="selected"</c:if>>已结束</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">背景图：</td>
-					<td align="left">
-						<input type="file" name="bgImage" />
-					</td>
-					<td align="right">选秀详情图片：</td>
-					<td align="left">
-						<input type="file" name="detailImage" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">描述：</td>
-					<td colspan="3">
-						<textarea rows="5" cols="15" id="descs" name="cycle.descs">${cycle.descs }</textarea>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4" align="center">
-						<c:if test="${flag!=1 }"><input type="button" id="submitBtn" value="保 存" class="button_b" /></c:if>
-						<input type="button" value="取 消" class="button_b" onclick="window.close();" />
-					</td>
-				</tr>
-			</table>
-		</div>
-	</fieldset>
-</form>
+	<form action="" id="pageFrom" name="" method="post">
+		<fieldset class="fieldsetStyle">
+			<legend>
+				<font size="3">基本信息</font>
+			</legend>
+			<div class="fieldsetContent">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="infoTableSpace">
+					<input type="hidden" id="id" name="cycle.id" value="${cycle.id}"
+						style="width: 500px" />
+					<tr>
+						<td align="right">主题标题：</td>
+						<td align="left"><input id="cycleNo" name="cycle.themeTitle"
+							value="${cycle.themeTitle}" style="width:100px" />
+						</td>
+						<td align="right">开始时间：</td>
+						<td align="left"><input type="text" id="starttime"
+							name="cycle.starttime" value="${cycle.starttime }" class="input"
+							onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endtime\')}'})"
+							readonly="readonly" style="width:100px;" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">周期结束时间：</td>
+						<td align="left"><input id="endtime" name="cycle.endtime"
+							value="${cycle.endtime}" class="input"
+							onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'starttime\')}'})"
+							readonly="readonly" style="width:100px;" />
+						</td>
+						<td align="right">周期状态：</td>
+						<td align="left"><select id="status" name="cycle.status"
+							style="width:108px;">
+								<option value="0"
+									<c:if test="${cycle.status==0 }">selected="selected"</c:if>>未开始</option>
+								<option value="1"
+									<c:if test="${cycle.status==1 }">selected="selected"</c:if>>进行中</option>
+								<option value="2"
+									<c:if test="${cycle.status==2 }">selected="selected"</c:if>>已结束</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td align="right">背景图：</td>
+						<td align="left"><input type="file" name="bgImage" /></td>
+						<td align="right">选秀详情图片：</td>
+						<td align="left"><input type="file" name="detailImage" /></td>
+					</tr>
+					<tr>
+						<td align="right">描述：</td>
+						<td colspan="3"><textarea rows="5" cols="15" id="descs"
+								name="cycle.descs">${cycle.descs }</textarea></td>
+					</tr>
+					<tr>
+						<td colspan="4" align="center"><c:if test="${flag!=1 }">
+								<input type="button" id="submitBtn" value="保 存" class="button_b" />
+							</c:if> <input type="button" value="取 消" class="button_b"
+							onclick="window.close();" /></td>
+					</tr>
+				</table>
+			</div>
+		</fieldset>
+	</form>
 </body>
 </html>
