@@ -39,17 +39,26 @@ public class LoginAction extends ActionSupport implements ModelDriven<User> {
 		PrintWriter out = ServletActionContext.getResponse().getWriter();
 		try {
 			String ids = ServletActionContext.getRequest().getParameter("ids");
-			User user = userService.verifyUser(j_username, j_password);
-			if (null != user) {
-				session.setAttribute("USER", user);
-				session.setAttribute("USER_ID", user.getId());
-				session.setAttribute("username", user.getUsername());
-				session.setAttribute("loginname", user.getLoginname());
-				session.setAttribute("loginTime", new Date());
-				out.print("{\"ajaxResult\":\"success\"}");
+			if(session.getAttribute("USER_ID")!=null&&!"".equals(session.getAttribute("USER_ID"))){
 				return SUCCESS;
+			}else{
+				if(j_username==null||"".equals(j_username)||j_password==null||"".equals(j_password)){
+					return "false";
+				}else{
+					User user = userService.verifyUser(j_username, j_password);
+					if (null != user) {
+						session.setAttribute("USER", user);
+						session.setAttribute("USER_ID", user.getId());
+						session.setAttribute("username", user.getUsername());
+						session.setAttribute("loginname", user.getLoginname());
+						session.setAttribute("loginTime", new Date());
+						out.print("{\"ajaxResult\":\"success\"}");
+						return SUCCESS;
+					}else{
+						return j_password;
+					}
+				}
 			}
-			return "false";
 		} catch (Exception e) {
 			e.printStackTrace();
 			out.print("{\"ajaxResult\":\"error\"}");
