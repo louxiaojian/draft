@@ -419,7 +419,7 @@ public class CycleAction extends ActionSupport {
 		PrintWriter out = ServletActionContext.getResponse().getWriter();
 		try {
 			String ids = ServletActionContext.getRequest().getParameter("ids");
-			cycleService.deleteEntity(Themes.class,ids);
+			cycleService.deleteEntity(Cycle.class,ids);
 			out.print("{\"result\":\"success\"}");
 		} catch (Exception e) {
 			out.print("{\"result\":\"error\"}");
