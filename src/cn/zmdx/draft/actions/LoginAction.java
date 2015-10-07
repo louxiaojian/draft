@@ -55,7 +55,8 @@ public class LoginAction extends ActionSupport implements ModelDriven<User> {
 						out.print("{\"ajaxResult\":\"success\"}");
 						return SUCCESS;
 					}else{
-						return j_password;
+						ServletActionContext.getRequest().setAttribute("message", "密码错误");
+						return "false";
 					}
 				}
 			}
