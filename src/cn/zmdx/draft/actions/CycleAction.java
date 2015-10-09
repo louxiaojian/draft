@@ -58,6 +58,18 @@ public class CycleAction extends ActionSupport {
 	private String imageContentType;
 	// 封装上传文件名 
 	private String imageFileName;
+	// 上传文件域
+	private File insideDetailImage;
+	// 上传文件类型
+	private String insideDetailImageContentType;
+	// 封装上传文件名 
+	private String insideDetailImageFileName;
+	// 上传文件域
+	private File webDetailImage;
+	// 上传文件类型
+	private String webDetailImageContentType;
+	// 封装上传文件名 
+	private String webDetailImageFileName;
 	public static final int APP_ID_V2 = 10002468;
 	public static final String SECRET_ID_V2 = "AKIDo26nbKDLWZA6xpPXzRUaYVPgf5wqqlp6";
 	public static final String SECRET_KEY_V2 = "upfmsUJgzOitvj0pCzSy4tV9ihdGeZMV";
@@ -165,6 +177,42 @@ public class CycleAction extends ActionSupport {
 	public void setDetailImageFileName(String detailImageFileName) {
 		this.detailImageFileName = detailImageFileName;
 	}
+	public File getInsideDetailImage() {
+		return insideDetailImage;
+	}
+	public void setInsideDetailImage(File insideDetailImage) {
+		this.insideDetailImage = insideDetailImage;
+	}
+	public String getInsideDetailImageContentType() {
+		return insideDetailImageContentType;
+	}
+	public void setInsideDetailImageContentType(String insideDetailImageContentType) {
+		this.insideDetailImageContentType = insideDetailImageContentType;
+	}
+	public String getInsideDetailImageFileName() {
+		return insideDetailImageFileName;
+	}
+	public void setInsideDetailImageFileName(String insideDetailImageFileName) {
+		this.insideDetailImageFileName = insideDetailImageFileName;
+	}
+	public File getWebDetailImage() {
+		return webDetailImage;
+	}
+	public void setWebDetailImage(File webDetailImage) {
+		this.webDetailImage = webDetailImage;
+	}
+	public String getWebDetailImageContentType() {
+		return webDetailImageContentType;
+	}
+	public void setWebDetailImageContentType(String webDetailImageContentType) {
+		this.webDetailImageContentType = webDetailImageContentType;
+	}
+	public String getWebDetailImageFileName() {
+		return webDetailImageFileName;
+	}
+	public void setWebDetailImageFileName(String webDetailImageFileName) {
+		this.webDetailImageFileName = webDetailImageFileName;
+	}
 	/*
 	 * 取得页面传过来的列表参数
 	 */
@@ -203,7 +251,7 @@ public class CycleAction extends ActionSupport {
 			String endtime = request.getParameter("endtime");
 			String status = request.getParameter("status");
 			Map<String, String> filterMap = getPagerMap();//id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url
-			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'未开始','1':'进行中','2':'已结束'}]", "bg_url","descs","tag_url","detail_image_url" };
+			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'已结束','1':'进行中','2':'未开始'}]", "bg_url","descs","tag_url","detail_image_url","inside_detail_image_url","vote_start_time","vote_end_time","web_detail_url" };
 			if (themeTitle != null && !"".equals(themeTitle)) {
 				filterMap.put("themeTitle", themeTitle);
 			}
@@ -259,12 +307,32 @@ public class CycleAction extends ActionSupport {
 						cycle.setDetailImageUrl(result.download_url);
 					}
 				}
+				if(getInsideDetailImage()!=null&&getInsideDetailImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getInsideDetailImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						cycle.setInsideDetailImageUrl(result.download_url);
+					}
+				}
+				if(getWebDetailImage()!=null&&getWebDetailImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getWebDetailImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						cycle.setWebDetailUrl(result.download_url);
+					}
+				}
 				cycleService.saveEntity(cycle);
 			} else {
 				Cycle entity = (Cycle)cycleService.getEntity(Cycle.class,cycle.getId());
 				entity.setId(cycle.getId());
 				entity.setThemeTitle(cycle.getThemeTitle());
 				entity.setStarttime(cycle.getStarttime());
+				entity.setVoteStartTime(cycle.getVoteStartTime());
+				entity.setVoteEndTime(cycle.getVoteEndTime());
 				entity.setEndtime(cycle.getEndtime());
 				entity.setStatus(cycle.getStatus());
 				entity.setDescs(cycle.getDescs());
@@ -284,6 +352,24 @@ public class CycleAction extends ActionSupport {
 						
 					}else{
 						entity.setDetailImageUrl(result.download_url);
+					}
+				}
+				if(getInsideDetailImage()!=null&&getInsideDetailImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getInsideDetailImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						entity.setInsideDetailImageUrl(result.download_url);
+					}
+				}
+				if(getWebDetailImage()!=null&&getWebDetailImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getWebDetailImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						entity.setWebDetailUrl(result.download_url);
 					}
 				}
 				cycleService.updateEntity(entity);

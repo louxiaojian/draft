@@ -22,6 +22,7 @@ public class PhotoDaoImpl extends ParentDAOImpl implements PhotoDao {
 
 	@Override
 	public void saveEntity(Object obj) {
+		this.getSession().createSQLQuery("set NAMES utf8mb4").executeUpdate();
 		this.template.save(obj);
 	}
 

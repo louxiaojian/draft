@@ -23,11 +23,13 @@ public class CycleDaoImpl extends ParentDAOImpl implements CycleDao {
 
 	@Override
 	public void saveEntity(Object obj) {
+		this.getSession().createSQLQuery("set NAMES utf8mb4").executeUpdate();
 		this.template.save(obj);
 	}
 
 	@Override
 	public void updateEntity(Object obj) {
+		this.getSession().createSQLQuery("set NAMES utf8mb4").executeUpdate();
 		this.template.update(obj);
 	}
 
@@ -43,7 +45,7 @@ public class CycleDaoImpl extends ParentDAOImpl implements CycleDao {
 		queryCountString
 				.append("select count(*) from (SELECT id FROM theme_cycle where 1=1  ");
 		queryString
-				.append("SELECT id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url FROM theme_cycle where 1=1 ");
+				.append("SELECT id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url,inside_detail_image_url,vote_start_time,vote_end_time,web_detail_url FROM theme_cycle where 1=1 ");
 		if (filterMap != null && !filterMap.isEmpty()) {
 			if (null != filterMap.get("themeTitle")
 					&& !"".equals(filterMap.get("themeTitle"))) {

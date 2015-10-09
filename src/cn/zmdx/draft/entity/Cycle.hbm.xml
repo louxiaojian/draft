@@ -13,6 +13,10 @@
 		<property name="descs" column="descs" />
 		<property name="tag" column="tag_url" />
 		<property name="detailImageUrl" column="detail_image_url" />
+		<property name="insideDetailImageUrl" column="inside_detail_image_url" />
+		<property name="webDetailUrl" column="web_detail_url" />
+		<property name="voteStartTime" column="vote_start_time" />
+		<property name="voteEndTime" column="vote_end_time" />
 	</class>
 	
 </hibernate-mapping>

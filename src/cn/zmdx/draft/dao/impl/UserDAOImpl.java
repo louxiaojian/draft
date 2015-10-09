@@ -25,6 +25,7 @@ public class UserDAOImpl extends ParentDAOImpl implements UserDAO {
 	@Override
 	public int save(User user) {
 		// TODO Auto-generated method stub
+		this.getSession().createSQLQuery("set NAMES utf8mb4").executeUpdate();
 		template.save(user);
 		return user.getId();
 	}
@@ -67,6 +68,7 @@ public class UserDAOImpl extends ParentDAOImpl implements UserDAO {
 	}
 
 	public void update(Object object) {
+		this.getSession().createSQLQuery("set NAMES utf8mb4").executeUpdate();
 		this.getHibernateTemplate().update(
 				this.getHibernateTemplate().merge(object));
 	}

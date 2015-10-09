@@ -147,36 +147,56 @@ html {
 						<td align="left"><input id="cycleNo" name="cycle.themeTitle"
 							value="${cycle.themeTitle}" style="width:100px" />
 						</td>
-						<td align="right">开始时间：</td>
+						<td align="right">周期状态：</td>
+						<td align="left"><select id="status" name="cycle.status"
+							style="width:108px;">
+								<option value="0"
+									<c:if test="${cycle.status==0 }">selected="selected"</c:if>>已结束</option>
+								<option value="1"
+									<c:if test="${cycle.status==1 }">selected="selected"</c:if>>进行中</option>
+								<option value="2"
+									<c:if test="${cycle.status==2 }">selected="selected"</c:if>>未开始</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td align="right">活动开始时间：</td>
 						<td align="left"><input type="text" id="starttime"
 							name="cycle.starttime" value="${cycle.starttime }" class="input"
 							onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endtime\')}'})"
 							readonly="readonly" style="width:100px;" />
 						</td>
-					</tr>
-					<tr>
-						<td align="right">周期结束时间：</td>
+						<td align="right">活动结束时间：</td>
 						<td align="left"><input id="endtime" name="cycle.endtime"
 							value="${cycle.endtime}" class="input"
 							onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'starttime\')}'})"
 							readonly="readonly" style="width:100px;" />
 						</td>
-						<td align="right">周期状态：</td>
-						<td align="left"><select id="status" name="cycle.status"
-							style="width:108px;">
-								<option value="0"
-									<c:if test="${cycle.status==0 }">selected="selected"</c:if>>未开始</option>
-								<option value="1"
-									<c:if test="${cycle.status==1 }">selected="selected"</c:if>>进行中</option>
-								<option value="2"
-									<c:if test="${cycle.status==2 }">selected="selected"</c:if>>已结束</option>
-						</select></td>
+					</tr>
+					<tr>
+						<td align="right">投票开始时间：</td>
+						<td align="left"><input type="text" id="voteStartTime"
+							name="cycle.voteStartTime" value="${cycle.voteStartTime }" class="input"
+							onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'voteEndTime\')}'})"
+							readonly="readonly" style="width:100px;" />
+						</td>
+						<td align="right">投票结束时间：</td>
+						<td align="left"><input id="voteEndTime" name="cycle.voteEndTime"
+							value="${cycle.voteEndTime}" class="input"
+							onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'voteStartTime\')}'})"
+							readonly="readonly" style="width:100px;" />
+						</td>
 					</tr>
 					<tr>
 						<td align="right">背景图：</td>
 						<td align="left"><input type="file" name="bgImage" /></td>
 						<td align="right">选秀详情图片：</td>
 						<td align="left"><input type="file" name="detailImage" /></td>
+					</tr>
+					<tr>
+						<td align="right">选秀详情内部图片：</td>
+						<td align="left"><input type="file" name="insideDetailImage" /></td>
+						<td align="right">网页主题详情图片：</td>
+						<td align="left"><input type="file" name=webDetailImage /></td>
 					</tr>
 					<tr>
 						<td align="right">描述：</td>
