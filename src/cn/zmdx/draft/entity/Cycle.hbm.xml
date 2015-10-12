@@ -17,6 +17,7 @@
 		<property name="webDetailUrl" column="web_detail_url" />
 		<property name="voteStartTime" column="vote_start_time" />
 		<property name="voteEndTime" column="vote_end_time" />
+		<property name="webTitleUrl" column="web_title_url" />
 	</class>
 	
 </hibernate-mapping>

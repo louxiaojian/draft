@@ -199,6 +199,10 @@ html {
 						<td align="left"><input type="file" name=webDetailImage /></td>
 					</tr>
 					<tr>
+						<td align="right">网页标题图片：</td>
+						<td align="left"><input type="file" name="webTitleImage" /></td>
+					</tr>
+					<tr>
 						<td align="right">描述：</td>
 						<td colspan="3"><textarea rows="5" cols="15" id="descs"
 								name="cycle.descs">${cycle.descs }</textarea></td>

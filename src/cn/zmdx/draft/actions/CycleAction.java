@@ -70,6 +70,11 @@ public class CycleAction extends ActionSupport {
 	private String webDetailImageContentType;
 	// 封装上传文件名 
 	private String webDetailImageFileName;
+	private File webTitleImage;
+	// 上传文件类型
+	private String webTitleImageContentType;
+	// 封装上传文件名 
+	private String webTitleImageFileName;
 	public static final int APP_ID_V2 = 10002468;
 	public static final String SECRET_ID_V2 = "AKIDo26nbKDLWZA6xpPXzRUaYVPgf5wqqlp6";
 	public static final String SECRET_KEY_V2 = "upfmsUJgzOitvj0pCzSy4tV9ihdGeZMV";
@@ -213,6 +218,24 @@ public class CycleAction extends ActionSupport {
 	public void setWebDetailImageFileName(String webDetailImageFileName) {
 		this.webDetailImageFileName = webDetailImageFileName;
 	}
+	public File getWebTitleImage() {
+		return webTitleImage;
+	}
+	public void setWebTitleImage(File webTitleImage) {
+		this.webTitleImage = webTitleImage;
+	}
+	public String getWebTitleImageContentType() {
+		return webTitleImageContentType;
+	}
+	public void setWebTitleImageContentType(String webTitleImageContentType) {
+		this.webTitleImageContentType = webTitleImageContentType;
+	}
+	public String getWebTitleImageFileName() {
+		return webTitleImageFileName;
+	}
+	public void setWebTitleImageFileName(String webTitleImageFileName) {
+		this.webTitleImageFileName = webTitleImageFileName;
+	}
 	/*
 	 * 取得页面传过来的列表参数
 	 */
@@ -251,7 +274,7 @@ public class CycleAction extends ActionSupport {
 			String endtime = request.getParameter("endtime");
 			String status = request.getParameter("status");
 			Map<String, String> filterMap = getPagerMap();//id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url
-			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'已结束','1':'进行中','2':'未开始'}]", "bg_url","descs","tag_url","detail_image_url","inside_detail_image_url","vote_start_time","vote_end_time","web_detail_url" };
+			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'已结束','1':'进行中','2':'未开始'}]", "bg_url","descs","tag_url","detail_image_url","inside_detail_image_url","vote_start_time","vote_end_time","web_detail_url","web_title_url" };
 			if (themeTitle != null && !"".equals(themeTitle)) {
 				filterMap.put("themeTitle", themeTitle);
 			}
@@ -325,6 +348,15 @@ public class CycleAction extends ActionSupport {
 						cycle.setWebDetailUrl(result.download_url);
 					}
 				}
+				if(getWebTitleImage()!=null&&getWebTitleImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getWebTitleImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						cycle.setWebTitleUrl(result.download_url);
+					}
+				}
 				cycleService.saveEntity(cycle);
 			} else {
 				Cycle entity = (Cycle)cycleService.getEntity(Cycle.class,cycle.getId());
@@ -370,6 +402,15 @@ public class CycleAction extends ActionSupport {
 						
 					}else{
 						entity.setWebDetailUrl(result.download_url);
+					}
+				}
+				if(getWebTitleImage()!=null&&getWebTitleImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getWebTitleImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						entity.setWebTitleUrl(result.download_url);
 					}
 				}
 				cycleService.updateEntity(entity);

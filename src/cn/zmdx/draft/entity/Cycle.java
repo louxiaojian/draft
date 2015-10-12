@@ -15,6 +15,7 @@ public class Cycle {
 	private String detailImageUrl;//描述图片
 	private String insideDetailImageUrl;//选秀查看详情页面内
 	private String webDetailUrl;//web页面显示主题活动详情
+	private String webTitleUrl;//web页面标题图片
 	private Date voteStartTime;//投票开始时间
 	private Date voteEndTime;//投票结束时间
 	
@@ -95,5 +96,11 @@ public class Cycle {
 	}
 	public void setWebDetailUrl(String webDetailUrl) {
 		this.webDetailUrl = webDetailUrl;
+	}
+	public String getWebTitleUrl() {
+		return webTitleUrl;
+	}
+	public void setWebTitleUrl(String webTitleUrl) {
+		this.webTitleUrl = webTitleUrl;
 	}
 }
