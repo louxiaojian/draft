@@ -2,21 +2,30 @@ package cn.zmdx.draft.actions;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.PushPayload;
 import cn.zmdx.draft.entity.PageResult;
+import cn.zmdx.draft.jpush.JPushUtil;
 import cn.zmdx.draft.service.impl.UserServiceImpl;
 import cn.zmdx.draft.util.DataUtil;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 public class UserAction  extends ActionSupport{
+	Logger logger = Logger.getLogger(UserAction.class);
 
 	private UserServiceImpl userService;
 	private String result;
@@ -24,6 +33,10 @@ public class UserAction  extends ActionSupport{
 	private String rows;
 	private String sidx;
 	private String sord;
+	 private static final String jpushAppKey ="b1d281203f8f4d8b2d7f2993";
+	 private static final String jpushMasterSecret ="acc4ade2f7b4b5757f9bd5d8";
+	 private JPushClient jPushClient=new JPushClient(jpushMasterSecret,
+	 jpushAppKey, 3);
 	public String getResult() {
 		return result;
 	}
@@ -132,6 +145,58 @@ public class UserAction  extends ActionSupport{
 		} finally {
 			out.flush();
 			out.close();
+		}
+	}
+	
+	/**
+	 * 发送通知
+	 * @author louxiaojian
+	 * @date： 日期：2015-10-20 时间：上午10:39:23
+	 * @throws IOException
+	 */
+	public void pushNotification() throws IOException{
+		HttpServletRequest request=ServletActionContext.getRequest();
+		HttpServletResponse response=ServletActionContext.getResponse();
+		PrintWriter out= response.getWriter();
+		try {
+			String type = request.getParameter("type");
+			String content = request.getParameter("content");
+			HashMap<String, String> extras=new HashMap<String, String>();
+			if("0".equals(type)){//版本更新
+				extras.put("scheme", "vshow://vshow.com/update");
+			}else if("1".equals(type)){//活动新主题
+				extras.put("scheme", "vshow://vshow.com/theme?url="+URLEncoder.encode("http://pandora.hdlocker.com/draftServer/photo_loadThemeCycle.action?themeCycleId=1"));
+			}
+			PushPayload pushPayload =JPushUtil.alertAll(content,extras);
+			PushResult pushResult= jPushClient.sendPush(pushPayload);
+//			PushPayload pushPayload = JPushUtil.buildPushObject_ios_tagAnd_alertWithExtrasAndMessage(
+//					currentUser.getUsername()+" 赞了您",map,PictureSetUser.getAlias());
+//			PushResult pushResult = jPushClient.sendNotificationAll("asdf");
+			System.out.println("jpush result："+pushResult );
+			logger.error("发送通知："+pushResult );
+			out.print("{\"result\":\"success\"}");
+		} catch (Exception e) {
+			out.print("{\"result\":\"error\"}");
+			e.printStackTrace();
+		}finally{
+			out.flush();
+			out.close();
+		}
+	}
+	public static void main(String[] args) {
+		HashMap<String, String> extras=new HashMap<String, String>();
+		PushPayload pushPayload =JPushUtil.alertAll("测试s",extras);
+		JPushClient jPushClient=new JPushClient(jpushMasterSecret,
+				 jpushAppKey, 3);
+		try {
+			PushResult pushResult= jPushClient.sendPush(pushPayload);
+			System.out.println(pushResult);
+		} catch (APIConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (APIRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

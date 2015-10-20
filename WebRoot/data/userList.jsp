@@ -287,6 +287,18 @@ text-overflow : ellipsis;
         }
 	}
 	
+	function editNotifition(){
+		var width = screen.width/2.9;
+		var height = screen.height/2.2;
+		var ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/chrome\/([\d.]+)/)){
+        	window.open("<%=request.getContextPath()%>/data/editNotifition.jsp?temp="+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+			refreshIt();
+        } else{
+	   		window.showModalDialog("<%=request.getContextPath()%>/data/editNotifition.jsp?temp="+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+	   		refreshIt();
+        }
+	}
 </script>
 </head>
 <body>
@@ -340,10 +352,11 @@ text-overflow : ellipsis;
 			<tr>
 				<td>
 					<input id="add" type='button' value='审批真人验证' onclick="auditing();" class='button_b1'/>
-<%--					<input id="refresh" type='button' value='查 看' onclick='preview()' class='button_b' />--%>
-					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />
+<%--					<input id="refresh" type='button' value='查 看' onclick='preview()' class='button_b' />
+					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />--%>
 					<input id="refresh" type='button' value='刷 新' onclick='refreshIt()' class='button_b' />
 					<input id="add" type='button' value='查看审批记录' onclick="viewReviewRecords();" class='button_b1'/>
+					<input id="pushNotification" type='button' value='发送通知' onclick="editNotifition()" class='button_b1'/>
 				</td>
 			</tr>
 			<tr>
