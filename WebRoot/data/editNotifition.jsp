@@ -61,6 +61,24 @@ body {
 		        return false;
 	        }
 	    });
+       	
+       	var actionUrl = "<%=request.getContextPath()%>/cycle_selectInit.action?tableName=theme_cycle&columns=id,theme_title&whereCol=status&whereVal=1";  
+		$.ajax({  
+		  url : actionUrl,  
+	      type : "post", 
+	      dataType : "json",  
+	      cache : false,  
+	      error : function(textStatus, errorThrown) {  
+	          alert("系统ajax交互错误: " + textStatus.value);  
+	      },  
+	      success : function(data, textStatus) {
+	    	  var result =data.data;
+	    	  var cycle = $("#themeCycleId");
+	    	  for(var i=0;i<result.length;i++){
+	    		  cycle.append('<option value="'+result[i][0]+'">'+result[i][1]+'</option>');
+	    	  }
+	      }  
+		});
 	 });
 
 	 function checkedForm(){
@@ -110,18 +128,22 @@ html {
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="infoTableSpace">
 					<tr>
-						<td align="right"  style="width: 100px;">通知类别：</td>
-						<td align="left" style="width: 200px;">
+						<td align="right"  style="width: 80px;">通知类别：</td>
+						<td align="left" style="width: 250px;">
 							<select id="type" name="type" style="width:150px;">
 								<option value="" selected="selected">--请选择--</option>
 								<option value="0">版本更新</option>
 								<option value="1">活动新主题</option>
 						</select>
 						</td>
+						<td>选秀主题：<select id="themeCycleId" name="themeCycleId" style="width:100px;">
+										<option value="">--请选择--</option>
+								</select>
+						</td>
 					</tr>
 					<tr>
 						<td align="right" style="width: 100px;">通知内容：</td>
-						<td align="left" style="width: 200px;">
+						<td align="left" style="width: 200px;" colspan="3">
 							<textarea rows="6" cols="20" style="width:400px;" id="content" name="content"></textarea>
 						</td>
 					</tr>

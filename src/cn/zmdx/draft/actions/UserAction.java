@@ -183,20 +183,4 @@ public class UserAction  extends ActionSupport{
 			out.close();
 		}
 	}
-	public static void main(String[] args) {
-		HashMap<String, String> extras=new HashMap<String, String>();
-		PushPayload pushPayload =JPushUtil.alertAll("测试s",extras);
-		JPushClient jPushClient=new JPushClient(jpushMasterSecret,
-				 jpushAppKey, 3);
-		try {
-			PushResult pushResult= jPushClient.sendPush(pushPayload);
-			System.out.println(pushResult);
-		} catch (APIConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (APIRequestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
