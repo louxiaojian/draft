@@ -165,7 +165,8 @@ public class UserAction  extends ActionSupport{
 			if("0".equals(type)){//版本更新
 				extras.put("scheme", "vshow://vshow.com/update");
 			}else if("1".equals(type)){//活动新主题
-				extras.put("scheme", "vshow://vshow.com/theme?url="+URLEncoder.encode("http://pandora.hdlocker.com/draftServer/photo_loadThemeCycle.action?themeCycleId=1"));
+				String themeCycleId = request.getParameter("themeCycleId");
+				extras.put("scheme", "vshow://vshow.com/theme?url="+URLEncoder.encode("http://pandora.hdlocker.com/draftServer/photo_loadThemeCycle.action?themeCycleId="+themeCycleId));
 			}
 			PushPayload pushPayload =JPushUtil.alertAll(content,extras);
 			PushResult pushResult= jPushClient.sendPush(pushPayload);
