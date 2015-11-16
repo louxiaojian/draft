@@ -189,23 +189,37 @@ html {
 					<tr>
 						<td align="right">背景图：</td>
 						<td align="left"><input type="file" name="bgImage" /></td>
+						<td align="right">新版本背景图：</td>
+						<td align="left"><input type="file" name="newBgImage" /></td>
+					</tr>
+					<tr>
+						<td align="right">新版本详情背景图：</td>
+						<td align="left"><input type="file" name="insideBgImage" /></td>
+					</tr>
+					<tr>
 						<td align="right">选秀详情图片：</td>
 						<td align="left"><input type="file" name="detailImage" /></td>
-					</tr>
-					<tr>
 						<td align="right">选秀详情内部图片：</td>
 						<td align="left"><input type="file" name="insideDetailImage" /></td>
-						<td align="right">网页主题详情图片：</td>
-						<td align="left"><input type="file" name=webDetailImage /></td>
 					</tr>
 					<tr>
+						<td align="right">网页主题详情图片：</td>
+						<td align="left"><input type="file" name=webDetailImage /></td>
 						<td align="right">网页标题图片：</td>
 						<td align="left"><input type="file" name="webTitleImage" /></td>
 					</tr>
 					<tr>
-						<td align="right">描述：</td>
-						<td colspan="3"><textarea rows="5" cols="15" id="descs"
+						<td align="right">主题介绍：</td>
+						<td><textarea rows="7" cols="10" id="descs"
 								name="cycle.descs">${cycle.descs }</textarea></td>
+						<td align="right">活动细则：</td>
+						<td><textarea rows="7" cols="10" id="role"
+								name="cycle.role">${cycle.role }</textarea></td>
+					</tr>
+					<tr>
+						<td align="right">奖项设置：</td>
+						<td colspan="3"><textarea rows="7" cols="15" id="awardSetting"
+								name="cycle.awardSetting">${cycle.awardSetting }</textarea></td>
 					</tr>
 					<tr>
 						<td colspan="4" align="center"><c:if test="${flag!=1 }">

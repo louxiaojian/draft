@@ -33,6 +33,7 @@
 		<action name="cycle_*" method="{1}" class="cycleAction">
 			<result name="editTheme">/data/editTheme.jsp</result>
 			<result name="editCycle">/data/editCycle.jsp</result>
+			<result name="editBulletinBoard">/data/editBulletinBoard.jsp</result>
 		</action>
 		<action name="photo_*" method="{1}" class="photoAction">
 			<result name="editPhoto">/data/editPhoto.jsp</result>

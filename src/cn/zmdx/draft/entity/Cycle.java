@@ -10,6 +10,8 @@ public class Cycle {
 	private Date endtime;//选秀结束时间
 	private String status;//选秀状态，0:结束，1:进行中，2:未开始
 	private String bgUrl;//背景图
+	private String insideBgUrl;//选秀查看详情页面内
+	private String newBgUrl;//背景图
 	private String descs;//主题描述
 	private String tag;//标签图片路径
 	private String detailImageUrl;//描述图片
@@ -18,6 +20,9 @@ public class Cycle {
 	private String webTitleUrl;//web页面标题图片
 	private Date voteStartTime;//投票开始时间
 	private Date voteEndTime;//投票结束时间
+	private String role;//活动细则
+	private String awardSetting;//奖项设置
+	private String isNeedValidate;//是否需要真人验证，0：需要，1：不需要
 	
 	public int getId() {
 		return id;
@@ -102,5 +107,35 @@ public class Cycle {
 	}
 	public void setWebTitleUrl(String webTitleUrl) {
 		this.webTitleUrl = webTitleUrl;
+	}
+	public String getNewBgUrl() {
+		return newBgUrl;
+	}
+	public void setNewBgUrl(String newBgUrl) {
+		this.newBgUrl = newBgUrl;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public String getAwardSetting() {
+		return awardSetting;
+	}
+	public void setAwardSetting(String awardSetting) {
+		this.awardSetting = awardSetting;
+	}
+	public String getIsNeedValidate() {
+		return isNeedValidate;
+	}
+	public void setIsNeedValidate(String isNeedValidate) {
+		this.isNeedValidate = isNeedValidate;
+	}
+	public String getInsideBgUrl() {
+		return insideBgUrl;
+	}
+	public void setInsideBgUrl(String insideBgUrl) {
+		this.insideBgUrl = insideBgUrl;
 	}
 }

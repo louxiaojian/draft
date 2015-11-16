@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import cn.zmdx.draft.entity.BulletinBoard;
 import cn.zmdx.draft.entity.Cycle;
 import cn.zmdx.draft.entity.PageResult;
 import cn.zmdx.draft.entity.Themes;
@@ -40,12 +41,25 @@ public class CycleAction extends ActionSupport {
 	private String sord;
 	private Cycle cycle;
 	private Themes theme;
+	private BulletinBoard bulletinBoard;
 	// 上传文件域
 	private File bgImage;
 	// 上传文件类型
 	private String bgImageContentType;
 	// 封装上传文件名 
 	private String bgImageFileName;
+	// 上传文件域
+	private File insideBgImage;
+	// 上传文件类型
+	private String insideBgImageContentType;
+	// 封装上传文件名 
+	private String insideBgImageFileName;
+	// 上传文件域
+	private File newBgImage;
+	// 上传文件类型
+	private String newBgImageContentType;
+	// 封装上传文件名 
+	private String newBgImageFileName;
 	// 上传文件域
 	private File detailImage;
 	// 上传文件类型
@@ -75,6 +89,7 @@ public class CycleAction extends ActionSupport {
 	private String webTitleImageContentType;
 	// 封装上传文件名 
 	private String webTitleImageFileName;
+	private String type;
 	public static final int APP_ID_V2 = 10002468;
 	public static final String SECRET_ID_V2 = "AKIDo26nbKDLWZA6xpPXzRUaYVPgf5wqqlp6";
 	public static final String SECRET_KEY_V2 = "upfmsUJgzOitvj0pCzSy4tV9ihdGeZMV";
@@ -236,6 +251,54 @@ public class CycleAction extends ActionSupport {
 	public void setWebTitleImageFileName(String webTitleImageFileName) {
 		this.webTitleImageFileName = webTitleImageFileName;
 	}
+	public File getNewBgImage() {
+		return newBgImage;
+	}
+	public void setNewBgImage(File newBgImage) {
+		this.newBgImage = newBgImage;
+	}
+	public String getNewBgImageContentType() {
+		return newBgImageContentType;
+	}
+	public void setNewBgImageContentType(String newBgImageContentType) {
+		this.newBgImageContentType = newBgImageContentType;
+	}
+	public String getNewBgImageFileName() {
+		return newBgImageFileName;
+	}
+	public void setNewBgImageFileName(String newBgImageFileName) {
+		this.newBgImageFileName = newBgImageFileName;
+	}
+	public BulletinBoard getBulletinBoard() {
+		return bulletinBoard;
+	}
+	public void setBulletinBoard(BulletinBoard bulletinBoard) {
+		this.bulletinBoard = bulletinBoard;
+	}
+	public File getInsideBgImage() {
+		return insideBgImage;
+	}
+	public void setInsideBgImage(File insideBgImage) {
+		this.insideBgImage = insideBgImage;
+	}
+	public String getInsideBgImageContentType() {
+		return insideBgImageContentType;
+	}
+	public void setInsideBgImageContentType(String insideBgImageContentType) {
+		this.insideBgImageContentType = insideBgImageContentType;
+	}
+	public String getInsideBgImageFileName() {
+		return insideBgImageFileName;
+	}
+	public void setInsideBgImageFileName(String insideBgImageFileName) {
+		this.insideBgImageFileName = insideBgImageFileName;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	/*
 	 * 取得页面传过来的列表参数
 	 */
@@ -274,7 +337,7 @@ public class CycleAction extends ActionSupport {
 			String endtime = request.getParameter("endtime");
 			String status = request.getParameter("status");
 			Map<String, String> filterMap = getPagerMap();//id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url
-			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'已结束','1':'进行中','2':'未开始'}]", "bg_url","descs","tag_url","detail_image_url","inside_detail_image_url","vote_start_time","vote_end_time","web_detail_url","web_title_url" };
+			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'已结束','1':'进行中','2':'未开始'}]", "bg_url","new_bg_url","inside_bg_url","descs","tag_url","detail_image_url","inside_detail_image_url","vote_start_time","vote_end_time","web_detail_url","web_title_url" };
 			if (themeTitle != null && !"".equals(themeTitle)) {
 				filterMap.put("themeTitle", themeTitle);
 			}
@@ -357,6 +420,24 @@ public class CycleAction extends ActionSupport {
 						cycle.setWebTitleUrl(result.download_url);
 					}
 				}
+				if(getNewBgImage()!=null&&getNewBgImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getNewBgImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						cycle.setNewBgUrl(result.download_url);
+					}
+				}
+				if(getInsideBgImage()!=null&&getInsideBgImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getInsideBgImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						cycle.setInsideBgUrl(result.download_url);
+					}
+				}
 				cycleService.saveEntity(cycle);
 			} else {
 				Cycle entity = (Cycle)cycleService.getEntity(Cycle.class,cycle.getId());
@@ -411,6 +492,24 @@ public class CycleAction extends ActionSupport {
 						
 					}else{
 						entity.setWebTitleUrl(result.download_url);
+					}
+				}
+				if(getNewBgImage()!=null&&getNewBgImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getNewBgImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						entity.setNewBgUrl(result.download_url);
+					}
+				}
+				if(getInsideBgImage()!=null&&getInsideBgImage().length()>0){
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getInsideBgImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						entity.setInsideBgUrl(result.download_url);
 					}
 				}
 				cycleService.updateEntity(entity);
@@ -583,6 +682,138 @@ public class CycleAction extends ActionSupport {
 //			logger.error(e);
 			e.printStackTrace();
 			out.print("{\"result\":\"error\"}");
+		}
+	}
+	
+	/**
+	 * 获取公告栏信息
+	 * @author louxiaojian
+	 * @date： 日期：2015-11-16 时间：下午12:18:00
+	 * @throws IOException
+	 */
+	public void queryBulletinBoard() throws IOException {
+		HttpServletRequest request= ServletActionContext.getRequest();
+		HttpServletResponse response= ServletActionContext.getResponse();
+		PrintWriter out = response.getWriter();
+		try {
+			response.setContentType("text/json; charset=utf-8");
+			String display = request.getParameter("display");
+			Map<String, String> filterMap = getPagerMap();//id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url
+			String[] viewArray = { "ID", "imageUrl", "url", "display:[{'0':'显示','1':'不显示'}]"};
+			if (display != null && !"".equals(display)) {
+				filterMap.put("display", display);
+			}
+			PageResult result = (PageResult) cycleService.queryBulletinBoard(filterMap);
+			String returnStr = DataUtil.getColumnJson(result, viewArray,rows,page);
+			out.print(returnStr);
+		}catch (Exception e) {
+			e.printStackTrace();
+			out.print("error");
+		} finally{
+			out.flush();
+			out.close();
+		}
+	}
+	
+	/**
+	 * 跳转到编辑公告页面
+	 * @author louxiaojian
+	 * @date： 日期：2015-11-16 时间：下午5:38:13
+	 * @return
+	 * @throws IOException
+	 */
+	public String toEditBulletinBoard() throws IOException {
+		ServletActionContext.getResponse().setContentType(
+				"text/html; charset=utf-8");
+		String id = ServletActionContext.getRequest().getParameter("id");
+		BulletinBoard bulletinBoard = (BulletinBoard)cycleService.getEntity(BulletinBoard.class, Integer.parseInt(id));
+		if(bulletinBoard.getUrl().contains("webview")){
+			ServletActionContext.getRequest().setAttribute("type", "webview");
+			bulletinBoard.setUrl(bulletinBoard.getUrl().substring(bulletinBoard.getUrl().indexOf("%3d")+3));
+		}else{
+			ServletActionContext.getRequest().setAttribute("type", "theme");
+			bulletinBoard.setUrl(bulletinBoard.getUrl().substring(bulletinBoard.getUrl().indexOf("=")+1));
+		}
+		ServletActionContext.getRequest().setAttribute("bulletinBoard", bulletinBoard);
+		return "editBulletinBoard";
+	}
+	/**
+	 * 保存、修改公告信息
+	 * @author louxiaojian
+	 * @date： 日期：2015-11-16 时间：下午3:22:15
+	 * @throws IOException
+	 */
+	public void saveBulletinBoard() throws IOException {
+		PrintWriter out = ServletActionContext.getResponse().getWriter();
+		try {
+//			int ret=0;
+			if (0 == bulletinBoard.getId()) {
+				if(getBgImage()!=null&&getBgImage().length()>0){
+					PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2,
+							BUCKET);
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getBgImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						bulletinBoard.setImageUrl(result.download_url);
+					}
+				}
+				if("webview".equals(type)){
+					bulletinBoard.setUrl("vshow://vshow.com/webview/url=http%3a%2f%2fpandora.hdlocker.com%2fdraftServer%2fphoto_loadPictureSet.action%3fthemeId%3d"+bulletinBoard.getUrl());
+				}else if("theme".equals(type)){
+					bulletinBoard.setUrl("vshow://vshow.com/theme?themeId="+bulletinBoard.getUrl());
+				}
+				cycleService.saveEntity(bulletinBoard);
+			} else {
+				BulletinBoard entity = (BulletinBoard)cycleService.getEntity(BulletinBoard.class,bulletinBoard.getId());
+				entity.setId(bulletinBoard.getId());
+				if(getBgImage()!=null&&getBgImage().length()>0){
+					PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2,
+							BUCKET);
+					UploadResult result = new UploadResult();
+					int ret = pc.Upload(getBgImage(), result);
+					if (ret != 0) {
+						
+					}else{
+						entity.setImageUrl(result.download_url);
+					}
+				}
+				if("webview".equals(type)){
+					entity.setUrl("vshow://vshow.com/webview/url=http%3a%2f%2fpandora.hdlocker.com%2fdraftServer%2fphoto_loadPictureSet.action%3fthemeId%3d"+bulletinBoard.getUrl());
+				}else if("theme".equals(type)){
+					entity.setUrl("vshow://vshow.com/theme?themeId="+bulletinBoard.getUrl());
+				}
+				entity.setDisplay(bulletinBoard.getDisplay());
+				cycleService.updateEntity(entity);
+			}
+			out.print("{\"result\":\"success\"}");
+		} catch (Exception e) {
+			out.print("{\"result\":\"error\"}");
+			e.printStackTrace();
+		}finally{
+			out.flush();
+			out.close();
+		}
+	}
+	/**
+	 * 删除公告
+	 * @author louxiaojian
+	 * @date： 日期：2015-11-16 时间：下午5:38:58
+	 * @throws IOException
+	 */
+	public void deleteBulletinBoard() throws IOException {
+		PrintWriter out = ServletActionContext.getResponse().getWriter();
+		try {
+			String ids = ServletActionContext.getRequest().getParameter("ids");
+			cycleService.deleteEntity(BulletinBoard.class,ids);
+			out.print("{\"result\":\"success\"}");
+		} catch (Exception e) {
+			out.print("{\"result\":\"error\"}");
+			e.printStackTrace();
+		}finally{
+			out.flush();
+			out.close();
 		}
 	}
 }

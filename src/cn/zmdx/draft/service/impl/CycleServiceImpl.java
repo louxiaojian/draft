@@ -55,6 +55,10 @@ public class CycleServiceImpl implements CycleService {
 	public List queryInitData(String tableName, String columns, String whereCol, String whereVal) {
 		return this.cycleDao.queryInitData(tableName, columns,whereCol,whereVal);
 	}
-	
+
+	@Override
+	public PageResult queryBulletinBoard(Map<String, String> filterMap) {
+		return this.cycleDao.queryBulletinBoard(filterMap);
+	}
 
 }

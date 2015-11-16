@@ -36,4 +36,13 @@ public interface CycleDao extends ParentDAO {
 	 * @return
 	 */
 	public List queryInitData(String tableName, String columns, String whereCol, String whereVal);
+
+	/**
+	 * 获取公告栏
+	 * @author louxiaojian
+	 * @date： 日期：2015-11-16 时间：上午11:37:30
+	 * @param filterMap
+	 * @return
+	 */
+	public PageResult queryBulletinBoard(Map<String, String> filterMap);
 }

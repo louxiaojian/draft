@@ -44,50 +44,20 @@ text-overflow : ellipsis;
 	var dateStr = now.getFullYear()+"-"+((now.getMonth()+1)<10?"0":"")+(now.getMonth()+1)+"-"+(now.getDate()<10?"0":"")+now.getDate()
 	$(document).ready(function(){
 		$("#gridTable").jqGrid({					
-			url:'<%=request.getContextPath()%>/cycle_queryCycles.action?edit_date='+dateStr+'&temp='+Math.round(Math.random()*10000),
+			url:'<%=request.getContextPath()%>/cycle_queryBulletinBoard.action?edit_date='+dateStr+'&temp='+Math.round(Math.random()*10000),
 			datatype: "json",
 			height: 500,
 			autoheight: true,
 			width: widthScroll/1.5, //id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url,vote_start_time,vote_end_time
-			colNames:['ID','主题标题','活动开始时间','活动结束时间','投票开始时间','投票结束时间','状态','背景图','新版背景图','详情背景图','主题描述','标签','详情图片','内部详情图片','web页面显示主题活动详情','web页面标题图片'],
+			colNames:['ID','图片url','跳转url','是否显示'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
-					{name:'theme_title',index:'theme_title', width:80,align: 'center'}, 
-					{name:'starttime',index:'starttime', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}}, 
-					{name:'endtime',index:'endtime', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-					{name:'vote_start_time',index:'vote_start_time', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}}, 
-					{name:'vote_end_time',index:'vote_end_time', width:120,align: 'center',formatter:"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-					{name:'status',index:'status', width:80,align: 'center'},
-					{name:'bg_url',index:'bg_url', width:150,align: 'center',
+					{name:'imageUrl',index:'imageUrl', width:150,align: 'center',
 						formatter: function(cellvalue, options, rowObject) {
-				  			return "<img src='"+rowObject.bg_url+"' width='60px' height='60px'>" ;
+				  			return "<img src='"+rowObject.imageUrl+"' width='60px' height='60px'>" ;
 		  				}},
-					{name:'new_bg_url',index:'new_bg_url', width:150,align: 'center',
-						formatter: function(cellvalue, options, rowObject) {
-				  			return "<img src='"+rowObject.new_bg_url+"' width='60px' height='60px'>" ;
-		  				}},
-					{name:'inside_bg_url',index:'inside_bg_url', width:150,align: 'center',
-						formatter: function(cellvalue, options, rowObject) {
-				  			return "<img src='"+rowObject.inside_bg_url+"' width='60px' height='60px'>" ;
-		  				}},
-					{name:'descs',index:'descs', width:150,align: 'center'},
-					{name:'tag_url',index:'tag_url', width:150,align: 'center'},
-					{name:'detail_image_url',index:'detail_image_url', width:150,align: 'center',
-						formatter: function(cellvalue, options, rowObject) {
-				  			return "<img src='"+rowObject.detail_image_url+"' width='60px' height='60px'>" ;
-		  				}},
-					{name:'inside_detail_image_url',index:'inside_detail_image_url', width:150,align: 'center',
-						formatter: function(cellvalue, options, rowObject) {
-				  			return "<img src='"+rowObject.inside_detail_image_url+"' width='60px' height='60px'>" ;
-		  				}},
-					{name:'web_detail_url',index:'web_detail_url', width:150,align: 'center',
-						formatter: function(cellvalue, options, rowObject) {
-				  			return "<img src='"+rowObject.web_detail_url+"' width='60px' height='60px'>" ;
-		  				}},
-					{name:'web_title_url',index:'web_title_url', width:150,align: 'center',
-						formatter: function(cellvalue, options, rowObject) {
-				  			return "<img src='"+rowObject.web_title_url+"' width='60px' height='60px'>" ;
-		  				}}
+					{name:'url',index:'url', width:150,align: 'center'},
+					{name:'display',index:'display', width:150,align: 'center'}
 			],
 			shrinkToFit:false,
 			sortname:'id',
@@ -136,10 +106,10 @@ text-overflow : ellipsis;
 		var height = screen.height/2;
 		var ua = navigator.userAgent.toLowerCase();
         if(ua.match(/chrome\/([\d.]+)/)){
-        	window.open('<%=request.getContextPath()%>/data/editCycle.jsp?temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+        	window.open('<%=request.getContextPath()%>/data/editBulletinBoard.jsp?temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
 			refreshIt();
         } else{
-	   		window.showModalDialog('<%=request.getContextPath()%>/data/editCycle.jsp?temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+	   		window.showModalDialog('<%=request.getContextPath()%>/data/editBulletinBoard.jsp?temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
 	   		refreshIt();
         }
 	}
@@ -161,10 +131,10 @@ text-overflow : ellipsis;
 		var height = screen.height/2;
 		var ua = navigator.userAgent.toLowerCase();
         if(ua.match(/chrome\/([\d.]+)/)){
-        	window.open('<%=request.getContextPath()%>/cycle_getCycleById.action?id='+id+'&flag='+flag+'&temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+        	window.open('<%=request.getContextPath()%>/cycle_toEditBulletinBoard.action?id='+id+'&flag='+flag+'&temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
     		refreshIt();
         } else{
-	   		window.showModalDialog('<%=request.getContextPath()%>/cycle_getCycleById.action?id='+id+'&flag='+flag+'&temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
+	   		window.showModalDialog('<%=request.getContextPath()%>/cycle_toEditBulletinBoard.action?id='+id+'&flag='+flag+'&temp='+new Date(),'', 'dialogWidth:'+width+';status:no;dialogHeight:'+height+';');
 	   		refreshIt();
         }
 	}
@@ -181,7 +151,7 @@ text-overflow : ellipsis;
 			return false;
 		}
 		var params = {"ids": ids};  
-		var actionUrl = "<%=request.getContextPath()%>/cycle_deleteTheme.action";  
+		var actionUrl = "<%=request.getContextPath()%>/cycle_deleteBulletinBoard.action";  
 		$.ajax({  
 			  url : actionUrl,  
 		      type : "post", 
@@ -204,21 +174,15 @@ text-overflow : ellipsis;
 	
     //查询
 	function gridSearch(){
-		var themeTitle = jQuery("#themeTitle").val();
-		var starttime = jQuery("#starttime").val();
-		var endtime = jQuery("#endtime").val();
-		var status = jQuery("#status").val();
+		var display = jQuery("#display").val();
 		var params = {  
-            "themeTitle" : encodeURIComponent($.trim(themeTitle)),
-            "starttime" : encodeURIComponent($.trim(starttime)),
-            "endtime" : encodeURIComponent($.trim(endtime)),
-            "status" : encodeURIComponent($.trim(status))
+            "display" : encodeURIComponent($.trim(display))
 		};							 
 		 var postData = $("#gridTable").jqGrid("getGridParam", "postData");
 		 $.extend(postData, params);
 		jQuery("#gridTable").jqGrid('setGridParam',
 		{
-			url:'<%=request.getContextPath()%>/cycle_queryCycles.action'
+			url:'<%=request.getContextPath()%>/cycle_queryBulletinBoard.action'
 		}).trigger("reloadGrid", [{page:1}]); 
     }
 	//刷新
@@ -227,10 +191,7 @@ text-overflow : ellipsis;
 	}
 	//清空
 	function reset() {
-		jQuery("#themeTitle").val("");
-		jQuery("#starttime").val("");
-		jQuery("#endtime").val("");
-		jQuery("#status").val("");
+		jQuery("#display").val("");
 	}
 </script>
 </head>
@@ -239,24 +200,11 @@ text-overflow : ellipsis;
 		<table width="100%" border="0" cellpadding="6" cellspacing="0"
 			class="tabman" style="width:100%;margin-bottom:0px">
 			<tr>
-				<td>&nbsp;&nbsp;主题标题：<input type="text" id="themeTitle"
-					name="themeTitle" value="" class="input" style="width:120px;" />&nbsp;&nbsp;
-				</td>
-				<td>&nbsp;&nbsp;时间：<input type="text" id="starttime"
-						name="starttime" value="" class="input"
-						onClick="WdatePicker()"
-						readonly="readonly" style="width:100px;" />
-				—<input type="text" id="endtime"
-						name="endtime" value="" class="input"
-						onClick="WdatePicker()"
-						readonly="readonly" style="width:100px;" />
-				</td>
 				<td>&nbsp;&nbsp;状态：
-					<select id="status" name="status" style="width:80px;">
+					<select id="display" name="display" style="width:80px;">
 						<option value="">全部</option>
-						<option value="0">未开始</option>
-						<option value="1">进行中</option>
-						<option value="2">已结束</option>
+						<option value="0">显示</option>
+						<option value="1">不显示</option>
 					</select>
 				</td>
 				<td><input type="button"
@@ -271,11 +219,7 @@ text-overflow : ellipsis;
 				<td>
 					<input id="add" type='button' value='添 加' onclick="addData();" class='button_b' />
 					<input id="update" type='button' value='修 改' onclick='updateData(0)' class='button_b' />
-					<input id="refresh" type='button' value='查 看' onclick='updateData(1)' class='button_b' />
 					<input id="delete" type='button' value='删 除' onclick='deleteData();' class='button_b' />
-<%--					<input id="delete" type='button' value='批量修改时间' onclick='updateTime();' class='button_b1'"/>
-					<input id="delete" type='button' value='置顶' onclick='sticks();' class='button_b'"/>
-					<input id="delete" type='button' value='取消置顶' onclick='cancelStick();' class='button_b1'/>--%>
 					<input id="refresh" type='button' value='刷 新' onclick='refreshIt()' class='button_b' />
 				</td>
 			</tr>
