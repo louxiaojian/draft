@@ -49,7 +49,7 @@ text-overflow : ellipsis;
 			height: 500,
 			autoheight: true,
 			width: widthScroll/1.5, //id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url,vote_start_time,vote_end_time
-			colNames:['ID','主题标题','活动开始时间','活动结束时间','投票开始时间','投票结束时间','状态','背景图','新版背景图','详情背景图','主题描述','标签','详情图片','内部详情图片','web页面显示主题活动详情','web页面标题图片'],
+			colNames:['ID','主题标题','活动开始时间','活动结束时间','投票开始时间','投票结束时间','状态','背景图','新版背景图','详情背景图','主题描述','活动细则','活动须知','奖项设置','标签','详情图片','内部详情图片','web页面显示主题活动详情','web页面标题图片'],
 			colModel:[
 					{name:'ID',index:'ID', width:60, key:true, sorttype:"int",hidden:true},								
 					{name:'theme_title',index:'theme_title', width:80,align: 'center'}, 
@@ -71,6 +71,9 @@ text-overflow : ellipsis;
 				  			return "<img src='"+rowObject.inside_bg_url+"' width='60px' height='60px'>" ;
 		  				}},
 					{name:'descs',index:'descs', width:150,align: 'center'},
+					{name:'role',index:'role', width:80,align: 'center'},
+					{name:'notice',index:'notice', width:80,align: 'center'},
+					{name:'awardSetting',index:'awardSetting', width:80,align: 'center'},
 					{name:'tag_url',index:'tag_url', width:150,align: 'center'},
 					{name:'detail_image_url',index:'detail_image_url', width:150,align: 'center',
 						formatter: function(cellvalue, options, rowObject) {
@@ -132,7 +135,7 @@ text-overflow : ellipsis;
 	
 	//添加
 	function addData(){
-		var width = screen.width/2;
+		var width = screen.width/1.2;
 		var height = screen.height/2;
 		var ua = navigator.userAgent.toLowerCase();
         if(ua.match(/chrome\/([\d.]+)/)){
@@ -157,7 +160,7 @@ text-overflow : ellipsis;
 		}
 		var row = jQuery("#gridTable").jqGrid('getRowData',ids);//获取选中行.
 		var id =row.ID;
-		var width = screen.width/2;
+		var width = screen.width/1.2;
 		var height = screen.height/2;
 		var ua = navigator.userAgent.toLowerCase();
         if(ua.match(/chrome\/([\d.]+)/)){

@@ -47,7 +47,7 @@ public class CycleDaoImpl extends ParentDAOImpl implements CycleDao {
 		queryCountString
 				.append("select count(*) from (SELECT id FROM theme_cycle where 1=1  ");
 		queryString
-				.append("SELECT id,theme_title,starttime,endtime,status,bg_url,new_bg_url,inside_bg_url,descs,tag_url,detail_image_url,inside_detail_image_url,vote_start_time,vote_end_time,web_detail_url,web_title_url FROM theme_cycle where 1=1 ");
+				.append("SELECT id,theme_title,starttime,endtime,status,bg_url,new_bg_url,inside_bg_url,descs,role,notice,award_setting,tag_url,detail_image_url,inside_detail_image_url,vote_start_time,vote_end_time,web_detail_url,web_title_url FROM theme_cycle where 1=1 ");
 		if (filterMap != null && !filterMap.isEmpty()) {
 			if (null != filterMap.get("themeTitle")
 					&& !"".equals(filterMap.get("themeTitle"))) {

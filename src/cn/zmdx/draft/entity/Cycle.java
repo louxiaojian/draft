@@ -21,6 +21,7 @@ public class Cycle {
 	private Date voteStartTime;//投票开始时间
 	private Date voteEndTime;//投票结束时间
 	private String role;//活动细则
+	private String notice;//活动须知
 	private String awardSetting;//奖项设置
 	private String isNeedValidate;//是否需要真人验证，0：需要，1：不需要
 	
@@ -137,5 +138,11 @@ public class Cycle {
 	}
 	public void setInsideBgUrl(String insideBgUrl) {
 		this.insideBgUrl = insideBgUrl;
+	}
+	public String getNotice() {
+		return notice;
+	}
+	public void setNotice(String notice) {
+		this.notice = notice;
 	}
 }

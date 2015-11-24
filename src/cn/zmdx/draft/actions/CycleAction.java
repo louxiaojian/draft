@@ -337,7 +337,7 @@ public class CycleAction extends ActionSupport {
 			String endtime = request.getParameter("endtime");
 			String status = request.getParameter("status");
 			Map<String, String> filterMap = getPagerMap();//id,theme_title,starttime,endtime,status,bg_url,descs,tag_url,detail_image_url
-			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'已结束','1':'进行中','2':'未开始'}]", "bg_url","new_bg_url","inside_bg_url","descs","tag_url","detail_image_url","inside_detail_image_url","vote_start_time","vote_end_time","web_detail_url","web_title_url" };
+			String[] viewArray = { "ID", "theme_title", "starttime", "endtime", "status:[{'0':'已结束','1':'进行中','2':'未开始'}]", "bg_url","new_bg_url","inside_bg_url","descs","role","notice","award_setting","tag_url","detail_image_url","inside_detail_image_url","vote_start_time","vote_end_time","web_detail_url","web_title_url" };
 			if (themeTitle != null && !"".equals(themeTitle)) {
 				filterMap.put("themeTitle", themeTitle);
 			}
@@ -449,6 +449,9 @@ public class CycleAction extends ActionSupport {
 				entity.setEndtime(cycle.getEndtime());
 				entity.setStatus(cycle.getStatus());
 				entity.setDescs(cycle.getDescs());
+				entity.setRole(cycle.getRole());
+				entity.setNotice(cycle.getNotice());
+				entity.setAwardSetting(cycle.getAwardSetting());
 				if(getBgImage()!=null&&getBgImage().length()>0){
 					UploadResult result = new UploadResult();
 					int ret = pc.Upload(getBgImage(), result);

@@ -217,8 +217,11 @@ html {
 								name="cycle.role">${cycle.role }</textarea></td>
 					</tr>
 					<tr>
+						<td align="right">活动须知：</td>
+						<td><textarea rows="7" cols="15" id="notice"
+								name="cycle.notice">${cycle.notice }</textarea></td>
 						<td align="right">奖项设置：</td>
-						<td colspan="3"><textarea rows="7" cols="15" id="awardSetting"
+						<td><textarea rows="7" cols="15" id="awardSetting"
 								name="cycle.awardSetting">${cycle.awardSetting }</textarea></td>
 					</tr>
 					<tr>
