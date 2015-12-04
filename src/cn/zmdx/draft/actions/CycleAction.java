@@ -783,7 +783,7 @@ public class CycleAction extends ActionSupport {
 					}
 				}
 				if("webview".equals(type)){
-					entity.setUrl("vshow://vshow.com/webview/url=http%3a%2f%2fpandora.hdlocker.com%2fdraftServer%2fphoto_loadPictureSet.action%3fthemeId%3d"+bulletinBoard.getUrl());
+					entity.setUrl("vshow://vshow.com/webview?url=http%3a%2f%2fpandora.hdlocker.com%2fdraftServer%2fphoto_loadPictureSet.action%3fthemeId%3d"+bulletinBoard.getUrl());
 				}else if("theme".equals(type)){
 					entity.setUrl("vshow://vshow.com/theme?themeId="+bulletinBoard.getUrl());
 				}

@@ -9,6 +9,7 @@ import org.apache.struts2.ServletActionContext;
 import cn.zmdx.draft.entity.User;
 import cn.zmdx.draft.service.impl.UserServiceImpl;
 import cn.zmdx.draft.util.Encrypter;
+import cn.zmdx.draft.util.Sha1;
 import cn.zmdx.draft.util.StringUtil;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -81,7 +82,7 @@ public class LoginAction extends ActionSupport implements ModelDriven<User> {
 			String userid = ServletActionContext.getRequest().getSession()
 					.getAttribute("USER_ID").toString();
 			User user = userService.findUsersById(Integer.parseInt(userid));
-			user.setPassword(Encrypter.md5(psw));
+			user.setPassword(new Sha1().Digest(psw));
 			if (null != user.getPassword()
 					&& !"null".equals(user.getPassword())) {
 				userService.updateUserInfo(user);
@@ -111,7 +112,7 @@ public class LoginAction extends ActionSupport implements ModelDriven<User> {
 					.getAttribute("USER_ID").toString();
 			User user = userService.findUsersById(Integer.parseInt(userid));
 			String Pwd = user.getPassword();
-			if (Pwd.equals(Encrypter.md5(oldPwd))) {
+			if (Pwd.equals(new Sha1().Digest(oldPwd))) {
 				out.print("{\"result\":\"success\"}");
 			} else {
 				out.print("{\"result\":\"false\"}");
